@@ -1,6 +1,6 @@
 # Forked version of Atmos
 
-![](https://travis-ci.org/paradoxical-io/atmos.svg?branch=master)
+![Scala CI](https://github.com/dspasojevic/atmos/workflows/Scala%20CI/badge.svg)
 
 Original repo located at: https://github.com/zmanio/atmos
 
