@@ -1,5 +1,5 @@
 /* ExponentialBackoffSpec.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -22,8 +22,8 @@ import scala.concurrent.duration._
 import scala.util.{Failure, Success}
 
 /**
- * Test suite for [[atmos.backoff.ExponentialBackoff]].
- */
+  * Test suite for [[atmos.backoff.ExponentialBackoff]].
+  */
 class ExponentialBackoffSpec extends FlatSpec with Matchers {
 
   val result = "result"

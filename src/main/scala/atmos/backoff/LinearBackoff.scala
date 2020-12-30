@@ -1,5 +1,5 @@
 /* LinearBackoff.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -21,10 +21,10 @@ import scala.concurrent.duration.FiniteDuration
 import scala.util.Try
 
 /**
- * A policy that increases the backoff duration by the same amount after every retry.
- *
- * @param initialBackoff The backoff used for the first retry as well as the base for all subsequent attempts.
- */
+  * A policy that increases the backoff duration by the same amount after every retry.
+  *
+  * @param initialBackoff The backoff used for the first retry as well as the base for all subsequent attempts.
+  */
 case class LinearBackoff(initialBackoff: FiniteDuration = defaultBackoff) extends atmos.BackoffPolicy {
 
   /* Return the initial backoff multiplied by the number of failed attempts. */

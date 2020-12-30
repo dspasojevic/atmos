@@ -1,5 +1,5 @@
 /* RandomizedBackoffSpec.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -22,8 +22,8 @@ import scala.concurrent.duration._
 import scala.util.{Failure, Success}
 
 /**
- * Test suite for [[atmos.backoff.RandomizedBackoff]].
- */
+  * Test suite for [[atmos.backoff.RandomizedBackoff]].
+  */
 class RandomizedBackoffSpec extends FlatSpec with Matchers {
 
   val result = "result"
@@ -31,7 +31,7 @@ class RandomizedBackoffSpec extends FlatSpec with Matchers {
 
   "RandomizedBackoff" should "adjust the result of another backoff policy with a random value" in {
     for {
-      backoff <- 1L to 100L map (100.millis * _)
+      backoff         <- 1L to 100L map (100.millis * _)
       (first, second) <- Seq(-10.millis -> 10.millis, 0.millis -> 0.millis, 10.millis -> 0.millis)
       policy = RandomizedBackoff(ConstantBackoff(backoff), first -> second)
       outcome <- Seq(Success(result), Failure(thrown))

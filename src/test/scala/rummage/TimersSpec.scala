@@ -1,5 +1,5 @@
 /* TimersSpec.scala
- * 
+ *
  * Copyright (c) 2013-2015 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -25,8 +25,8 @@ import scala.concurrent.ExecutionContext
 import scala.concurrent.duration._
 
 /**
- * Test suite for the rummage timer API.
- */
+  * Test suite for the rummage timer API.
+  */
 class TimersSpec extends FlatSpec with Matchers with MockFactory {
 
   "Timer" should "provide a fluent interface around task submission" in {
@@ -34,13 +34,13 @@ class TimersSpec extends FlatSpec with Matchers with MockFactory {
     val timer = new TimerMock
     // Test `timer after delay`
     timer.submit.expects(1.second, None, *, global).returns(DummyTask).once
-    (timer.mock after 1.second) {()} shouldBe DummyTask
+    (timer.mock after 1.second)(()) shouldBe DummyTask
     // Test `timer after delay andEvery interval`
     timer.submit.expects(1.second, Some(2.seconds), *, global).returns(DummyTask).once
-    (timer.mock after 1.second andEvery 2.seconds) {()} shouldBe DummyTask
+    (timer.mock after 1.second andEvery 2.seconds)(()) shouldBe DummyTask
     // Test `timer every interval`
     timer.submit.expects(3.seconds, Some(3.seconds), *, global).returns(DummyTask).once
-    (timer.mock every 3.seconds) {()} shouldBe DummyTask
+    (timer.mock every 3.seconds)(()) shouldBe DummyTask
   }
 
   /** A container for the timer mocking utilities, used so we only mock the submit method. */
@@ -48,8 +48,7 @@ class TimersSpec extends FlatSpec with Matchers with MockFactory {
     self =>
     val submit = mockFunction[FiniteDuration, Option[FiniteDuration], () => Unit, ExecutionContext, Timer.Task]
     val mock = new Timer {
-      def submit(delay: FiniteDuration, interval: Option[FiniteDuration], f: () => Unit)(
-        implicit ec: ExecutionContext) = self.submit(delay, interval, f, ec)
+      def submit(delay: FiniteDuration, interval: Option[FiniteDuration], f: () => Unit)(implicit ec: ExecutionContext) = self.submit(delay, interval, f, ec)
     }
   }
 
@@ -67,21 +66,21 @@ class TimersSpec extends FlatSpec with Matchers with MockFactory {
     val future = mock[ScheduledFuture[AnyRef]]
     // Test `timer after delay`
     executor.schedule.expects(*, 1.second.toMillis, MILLISECONDS).returns(future).once
-    val task1 = (timer after 1.second) {()}
+    val task1 = (timer after 1.second)(())
     (future.isCancelled _).expects().returns(false).once
     task1.isCancelled shouldBe false
     (future.cancel _).expects(false).returns(true).once
     task1.cancel()
     // Test `timer after delay andEvery interval`
     executor.scheduleAtFixedRate.expects(*, 1.second.toMillis, 2.seconds.toMillis, MILLISECONDS).returns(future).once
-    val task2 = (timer after 1.second andEvery 2.seconds) {()}
+    val task2 = (timer after 1.second andEvery 2.seconds)(())
     (future.isCancelled _).expects().returns(false).once
     task2.isCancelled shouldBe false
     (future.cancel _).expects(false).returns(true).once
     task2.cancel()
     // Test `timer every interval`
     executor.scheduleAtFixedRate.expects(*, 3.seconds.toMillis, 3.seconds.toMillis, MILLISECONDS).returns(future).once
-    val task3 = (timer every 3.seconds) {()}
+    val task3 = (timer every 3.seconds)(())
     (future.isCancelled _).expects().returns(false).once
     task3.isCancelled shouldBe false
     (future.cancel _).expects(false).returns(true).once
@@ -139,21 +138,21 @@ class TimersSpec extends FlatSpec with Matchers with MockFactory {
     val cancellable = mock[Cancellable]
     // Test `timer after delay`
     scheduler.scheduleOnce.expects(1.second, *, global).returns(cancellable).once
-    val task1 = (timer after 1.second) {()}
+    val task1 = (timer after 1.second)(())
     (cancellable.isCancelled _).expects().returns(false).once
     task1.isCancelled shouldBe false
     (cancellable.cancel _).expects().returns(true).once
     task1.cancel()
     // Test `timer after delay andEvery interval`
     scheduler.schedule.expects(1.second, 2.seconds, *, global).returns(cancellable).once
-    val task2 = (timer after 1.second andEvery 2.seconds) {()}
+    val task2 = (timer after 1.second andEvery 2.seconds)(())
     (cancellable.isCancelled _).expects().returns(false).once
     task2.isCancelled shouldBe false
     (cancellable.cancel _).expects().returns(true).once
     task2.cancel()
     // Test `timer every interval`
     scheduler.schedule.expects(3.seconds, 3.seconds, *, global).returns(cancellable).once
-    val task3 = (timer every 3.seconds) {()}
+    val task3 = (timer every 3.seconds)(())
     (cancellable.isCancelled _).expects().returns(false).once
     task3.isCancelled shouldBe false
     (cancellable.cancel _).expects().returns(true).once

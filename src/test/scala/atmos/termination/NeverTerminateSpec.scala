@@ -1,5 +1,5 @@
 /* NeverTerminateSpec.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2014 zman.io
  *
@@ -21,14 +21,14 @@ import org.scalatest._
 import scala.concurrent.duration._
 
 /**
- * Test suite for [[atmos.termination.NeverTerminate]].
- */
+  * Test suite for [[atmos.termination.NeverTerminate]].
+  */
 class NeverTerminateSpec extends FlatSpec with Matchers {
 
   "NeverTerminate" should "not signal for termination on any combination of inputs" in {
     for {
       nextAttemptAt <- 1L to 100L map (100.millis * _)
-      attempt <- 1 to 10
+      attempt       <- 1 to 10
     } NeverTerminate.shouldTerminate(attempt, nextAttemptAt) shouldEqual false
   }
 

@@ -1,5 +1,5 @@
 /* PrintEventsSpec.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -23,8 +23,8 @@ import scala.concurrent.duration._
 import scala.util.{Failure, Success, Try}
 
 /**
- * Test suite for [[atmos.monitor.PrintEvents]].
- */
+  * Test suite for [[atmos.monitor.PrintEvents]].
+  */
 class PrintEventsSpec extends FlatSpec with Matchers with MockFactory {
 
   import PrintAction._
@@ -34,21 +34,16 @@ class PrintEventsSpec extends FlatSpec with Matchers with MockFactory {
 
   "PrintEvents" should "forward relevant event messages to the underlying target" in {
     for {
-      (action, failAction) <- Seq(
-        PrintNothing -> PrintMessage,
-        PrintMessage -> PrintMessageAndStackTrace,
-        PrintMessageAndStackTrace -> PrintNothing)
-      selector <- Seq(
-        EventClassifier.empty[PrintAction],
-        EventClassifier { case Failure(t) if t == thrown => failAction })
+      (action, failAction) <- Seq(PrintNothing -> PrintMessage, PrintMessage -> PrintMessageAndStackTrace, PrintMessageAndStackTrace -> PrintNothing)
+      selector             <- Seq(EventClassifier.empty[PrintAction], EventClassifier { case Failure(t) if t == thrown => failAction })
       fixture = new PrintEventsFixture(action, selector)
-      name <- Seq(Some("name"), None)
+      name    <- Seq(Some("name"), None)
       attempt <- 1 to 10
       outcome <- Seq(Success(result), Failure(thrown))
     } {
       for {
         backoff <- 1L to 10L map (100.millis * _)
-        silent <- Seq(true, false)
+        silent  <- Seq(true, false)
       } {
         if (!silent) fixture.expectsOnce(outcome)
         fixture.mock.retrying(name, outcome, attempt, backoff, silent)

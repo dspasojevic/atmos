@@ -1,5 +1,5 @@
 /* SelectedBackoffSpec.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -22,8 +22,8 @@ import scala.concurrent.duration._
 import scala.util.{Failure, Success}
 
 /**
- * Test suite for [[atmos.backoff.SelectedBackoff]].
- */
+  * Test suite for [[atmos.backoff.SelectedBackoff]].
+  */
 class SelectedBackoffSpec extends FlatSpec with Matchers {
 
   val normalResult = "normal"
@@ -39,16 +39,17 @@ class SelectedBackoffSpec extends FlatSpec with Matchers {
       tNormalPolicy = ExponentialBackoff(backoff)
       tSpecialPolicy = FibonacciBackoff(backoff)
       policy = SelectedBackoff {
-        case Success(r) if r == normalResult => rNormalPolicy
+        case Success(r) if r == normalResult  => rNormalPolicy
         case Success(r) if r == specialResult => rSpecialPolicy
-        case Failure(t) if t == normalThrown => tNormalPolicy
+        case Failure(t) if t == normalThrown  => tNormalPolicy
         case Failure(t) if t == specialThrown => tSpecialPolicy
       }
       (outcome, expectedPolicy) <- Seq(
-        Success(normalResult) -> rNormalPolicy,
+        Success(normalResult)  -> rNormalPolicy,
         Success(specialResult) -> rSpecialPolicy,
-        Failure(normalThrown) -> tNormalPolicy,
-        Failure(specialThrown) -> tSpecialPolicy)
+        Failure(normalThrown)  -> tNormalPolicy,
+        Failure(specialThrown) -> tSpecialPolicy
+      )
       attempt <- 1 to 10
     } policy.nextBackoff(attempt, outcome) shouldEqual expectedPolicy.nextBackoff(attempt, outcome)
   }

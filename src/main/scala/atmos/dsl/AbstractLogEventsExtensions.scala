@@ -1,5 +1,5 @@
 /* AbstractLogEventsExtensions.scala
- * 
+ *
  * Copyright (c) 2015 zman.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,15 +19,15 @@ package atmos.dsl
 import atmos.monitor.{EventClassifier, LogAction, LogEvents}
 
 /**
- * A base class that implements DSL extension methods for all logging event monitors.
- */
+  * A base class that implements DSL extension methods for all logging event monitors.
+  */
 trait AbstractLogEventsExtensions extends AbstractEventMonitorExtensions {
 
   /** The type of the log levels used by the logging system. */
   type Level
 
   /* Supported types all extend `LogEvents`. */
-  override type Self <: LogEvents {type LevelType = Level}
+  override type Self <: LogEvents { type LevelType = Level }
 
   /* Always use `LogAction`. */
   override type Action = LogAction[Level]

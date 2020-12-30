@@ -1,5 +1,5 @@
 /* FormatEventsSpec.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2014 zman.io
  *
@@ -22,8 +22,8 @@ import scala.concurrent.duration._
 import scala.util.Failure
 
 /**
- * Test suite for [[atmos.monitor.FormatEvents]].
- */
+  * Test suite for [[atmos.monitor.FormatEvents]].
+  */
 class FormatEventsSpec extends FlatSpec with Matchers {
 
   val thrownWithMsg = new RuntimeException("ERROR!")
@@ -32,8 +32,8 @@ class FormatEventsSpec extends FlatSpec with Matchers {
   "FormatEvents" should "include relevant information in the formatted messages" in {
     val formatter = new FormatEvents {}
     for {
-      name <- Seq(Some("name"), None)
-      thrown <- Seq(thrownWithMsg, thrownWithoutMsg)
+      name    <- Seq(Some("name"), None)
+      thrown  <- Seq(thrownWithMsg, thrownWithoutMsg)
       attempt <- 1 to 10
     } {
       for (backoff <- 1L to 100L map (100.millis * _))

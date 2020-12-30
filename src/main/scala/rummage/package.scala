@@ -1,5 +1,5 @@
 /* package.scala
- * 
+ *
  * Copyright (c) 2013-2015 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -17,9 +17,9 @@
  */
 
 /**
- * The `rummage` package is a collection of small Scala utilities.
- *
- * This package consists of self-contained utilities that are too small and general to warrant their own package and/or
- * artifact, but are too large, nuanced or handy to have around to be re-implemented over and over again.
- */
+  * The `rummage` package is a collection of small Scala utilities.
+  *
+  * This package consists of self-contained utilities that are too small and general to warrant their own package and/or
+  * artifact, but are too large, nuanced or handy to have around to be re-implemented over and over again.
+  */
 package object rummage

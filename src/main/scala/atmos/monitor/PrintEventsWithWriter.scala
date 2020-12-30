@@ -1,5 +1,5 @@
 /* PrintEventsWithWriter.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -20,28 +20,28 @@ package atmos.monitor
 import java.io.PrintWriter
 
 /**
- * An event monitor that prints information about retry events to a writer.
- *
- * @param writer                    The writer that this event monitor prints to.
- * @param retryingAction            The action that is performed by default when a retrying event is received.
- * @param interruptedAction         The action that is performed by default when an interrupted event is received.
- * @param abortedAction             The action that is performed by default when an aborted event is received.
- * @param retryingActionSelector    The strategy used to select an action to perform for a retrying event, defaulting to
- *                                  `retryingAction`.
- * @param interruptedActionSelector The strategy used to select an action to perform for an interrupted event,
- *                                  defaulting to `interruptedAction`.
- * @param abortedActionSelector     The strategy used to select an action to perform for an aborted event, defaulting to
- *                                  `abortedAction`.
- */
+  * An event monitor that prints information about retry events to a writer.
+  *
+  * @param writer                    The writer that this event monitor prints to.
+  * @param retryingAction            The action that is performed by default when a retrying event is received.
+  * @param interruptedAction         The action that is performed by default when an interrupted event is received.
+  * @param abortedAction             The action that is performed by default when an aborted event is received.
+  * @param retryingActionSelector    The strategy used to select an action to perform for a retrying event, defaulting to
+  *                                  `retryingAction`.
+  * @param interruptedActionSelector The strategy used to select an action to perform for an interrupted event,
+  *                                  defaulting to `interruptedAction`.
+  * @param abortedActionSelector     The strategy used to select an action to perform for an aborted event, defaulting to
+  *                                  `abortedAction`.
+  */
 case class PrintEventsWithWriter(
-  writer: PrintWriter,
-  retryingAction: PrintAction = PrintEventsWithWriter.defaultRetryingAction,
-  interruptedAction: PrintAction = PrintEventsWithWriter.defaultInterruptedAction,
-  abortedAction: PrintAction = PrintEventsWithWriter.defaultAbortedAction,
-  retryingActionSelector: EventClassifier[PrintAction] = EventClassifier.empty,
-  interruptedActionSelector: EventClassifier[PrintAction] = EventClassifier.empty,
-  abortedActionSelector: EventClassifier[PrintAction] = EventClassifier.empty)
-  extends PrintEvents {
+    writer: PrintWriter,
+    retryingAction: PrintAction = PrintEventsWithWriter.defaultRetryingAction,
+    interruptedAction: PrintAction = PrintEventsWithWriter.defaultInterruptedAction,
+    abortedAction: PrintAction = PrintEventsWithWriter.defaultAbortedAction,
+    retryingActionSelector: EventClassifier[PrintAction] = EventClassifier.empty,
+    interruptedActionSelector: EventClassifier[PrintAction] = EventClassifier.empty,
+    abortedActionSelector: EventClassifier[PrintAction] = EventClassifier.empty
+) extends PrintEvents {
 
   /* Pass the message to the underlying writer. */
   override def printMessage(message: String) = writer.println(message)
@@ -55,8 +55,8 @@ case class PrintEventsWithWriter(
 }
 
 /**
- * Definitions associated with event monitors that print information about retry events as text.
- */
+  * Definitions associated with event monitors that print information about retry events as text.
+  */
 object PrintEventsWithWriter {
 
   import PrintAction._

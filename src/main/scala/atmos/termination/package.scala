@@ -1,5 +1,5 @@
 /* package.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2014 zman.io
  *
@@ -20,8 +20,8 @@ package atmos
 import scala.concurrent.duration._
 
 /**
- * The `atmos.termination` package provides common implementations of the [[atmos.TerminationPolicy]] trait.
- */
+  * The `atmos.termination` package provides common implementations of the [[atmos.TerminationPolicy]] trait.
+  */
 package object termination {
 
   /** The default maximum number of attempts that can be performed. */

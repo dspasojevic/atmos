@@ -1,5 +1,5 @@
 /* IgnoreEvents.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -21,8 +21,8 @@ import scala.concurrent.duration.FiniteDuration
 import scala.util.Try
 
 /**
- * A monitor that ignores all events.
- */
+  * A monitor that ignores all events.
+  */
 case object IgnoreEvents extends atmos.EventMonitor {
 
   /* Ignore the retrying event. */

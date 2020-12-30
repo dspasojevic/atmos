@@ -1,5 +1,5 @@
 /* RetryPolicySpec.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -25,8 +25,8 @@ import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.util.{Failure, Try}
 
 /**
- * Test suite for [[atmos.RetryPolicy]].
- */
+  * Test suite for [[atmos.RetryPolicy]].
+  */
 class RetryPolicySpec extends FlatSpec with Matchers with MockFactory {
 
   import ExecutionContext.Implicits._
@@ -173,14 +173,14 @@ class RetryPolicySpec extends FlatSpec with Matchers with MockFactory {
         counter
       }
     }
-    a[TestException] should be thrownBy {Await.result(future, Duration.Inf)}
+    a[TestException] should be thrownBy { Await.result(future, Duration.Inf) }
     counter shouldEqual 2
   }
 
   it should "asynchronously retry until encountering a fatal error" in {
     implicit val policy = RetryPolicy(LimitAttempts(1), classifier = {
       case _: TestException => ErrorClassification.Fatal
-    }) retryFor {2 attempts}
+    }) retryFor { 2 attempts }
     @volatile var counter = 0
     val future = retryAsync(None) {
       Future {
@@ -189,7 +189,7 @@ class RetryPolicySpec extends FlatSpec with Matchers with MockFactory {
         counter
       }
     }
-    a[TestException] should be thrownBy {Await.result(future, Duration.Inf)}
+    a[TestException] should be thrownBy { Await.result(future, Duration.Inf) }
     counter shouldEqual 1
   }
 
@@ -231,14 +231,14 @@ class RetryPolicySpec extends FlatSpec with Matchers with MockFactory {
         if (counter >= limit)
           throw new TestException
         else
-          executor.execute(new Runnable {override def run() = {f(Failure(new TestException))}})
+          executor.execute(new Runnable { override def run() = f(Failure(new TestException)) })
       }
     }
-    val future1 = retryAsync() {mockFuture}
+    val future1 = retryAsync()(mockFuture)
     a[TestException] should be thrownBy Await.result(future1, Duration.Inf)
     limit = 2
     counter = 0
-    val future2 = retryAsync("test") {mockFuture}
+    val future2 = retryAsync("test")(mockFuture)
     a[TestException] should be thrownBy Await.result(future2, Duration.Inf)
   }
 
@@ -261,11 +261,11 @@ class RetryPolicySpec extends FlatSpec with Matchers with MockFactory {
           Future.failed(new TestException)
       }
     }
-    val future1 = retryAsync() {Future {throw new RuntimeException}}
+    val future1 = retryAsync()(Future(throw new RuntimeException))
     a[TestException] should be thrownBy Await.result(future1, Duration.Inf)
     limit = 2
     counter = 0
-    val future2 = retryAsync("test") {Future {throw new RuntimeException}}
+    val future2 = retryAsync("test")(Future(throw new RuntimeException))
     a[TestException] should be thrownBy Await.result(future2, Duration.Inf)
   }
 

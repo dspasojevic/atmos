@@ -1,5 +1,5 @@
 /* PrintEventsWithWriterExtensions.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -20,10 +20,10 @@ package atmos.dsl
 import atmos.monitor.{EventClassifier, PrintAction, PrintEventsWithWriter}
 
 /**
- * Adds DSL extension methods to the [[atmos.monitor.PrintEventsWithWriter]] interface.
- *
- * @param self The print writer event monitor to add the extension methods to.
- */
+  * Adds DSL extension methods to the [[atmos.monitor.PrintEventsWithWriter]] interface.
+  *
+  * @param self The print writer event monitor to add the extension methods to.
+  */
 case class PrintEventsWithWriterExtensions(self: PrintEventsWithWriter) extends AbstractPrintEventsExtensions {
 
   /* Set the self type to the wrapped type. */

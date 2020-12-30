@@ -1,5 +1,5 @@
 /* LogEventsWithJavaSpec.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -22,8 +22,8 @@ import org.scalamock.scalatest.MockFactory
 import org.scalatest._
 
 /**
- * Test suite for [[atmos.monitor.LogEventsWithJava]].
- */
+  * Test suite for [[atmos.monitor.LogEventsWithJava]].
+  */
 class LogEventsWithJavaSpec extends FlatSpec with Matchers with MockFactory {
 
   val thrown = new RuntimeException
@@ -32,15 +32,15 @@ class LogEventsWithJavaSpec extends FlatSpec with Matchers with MockFactory {
     val fixture = new LoggerFixture
     val monitor = LogEventsWithJava(fixture.mock)
     for {
-      level <- Seq(Level.SEVERE, Level.WARNING, Level.INFO, Level.CONFIG)
+      level   <- Seq(Level.SEVERE, Level.WARNING, Level.INFO, Level.CONFIG)
       enabled <- Seq(true, false)
-      t <- Seq(Some(thrown), None)
+      t       <- Seq(Some(thrown), None)
     } {
       fixture.isLoggable.expects(level).returns(enabled).once
       monitor.isLoggable(level) shouldBe enabled
       t match {
         case Some(tt) => fixture.logThrown.expects(level, "MSG", tt).once
-        case None => fixture.log.expects(level, "MSG").once
+        case None     => fixture.log.expects(level, "MSG").once
       }
       monitor.log(level, "MSG", t)
     }

@@ -1,5 +1,5 @@
 /* FibonacciBackoff.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -21,11 +21,11 @@ import scala.concurrent.duration._
 import scala.util.Try
 
 /**
- * A policy that increases the initial backoff duration by repeatedly multiplying by an approximation of the golden
- * ratio (8 / 5, the sixth and fifth fibonacci numbers).
- *
- * @param initialBackoff The backoff used for the first retry as well as the base for all subsequent retries.
- */
+  * A policy that increases the initial backoff duration by repeatedly multiplying by an approximation of the golden
+  * ratio (8 / 5, the sixth and fifth fibonacci numbers).
+  *
+  * @param initialBackoff The backoff used for the first retry as well as the base for all subsequent retries.
+  */
 case class FibonacciBackoff(initialBackoff: FiniteDuration = defaultBackoff) extends atmos.BackoffPolicy {
 
   /* Start with the initial backoff and multiply the previous backoff by the golden ratio every subsequent attempt. */

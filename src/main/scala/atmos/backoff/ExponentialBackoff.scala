@@ -1,5 +1,5 @@
 /* ExponentialBackoff.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -21,10 +21,10 @@ import scala.concurrent.duration.FiniteDuration
 import scala.util.Try
 
 /**
- * A policy that doubles the backoff duration after every attempt.
- *
- * @param initialBackoff The backoff used for the first retry as well as the base for all subsequent retries.
- */
+  * A policy that doubles the backoff duration after every attempt.
+  *
+  * @param initialBackoff The backoff used for the first retry as well as the base for all subsequent retries.
+  */
 case class ExponentialBackoff(initialBackoff: FiniteDuration = defaultBackoff) extends atmos.BackoffPolicy {
 
   /* Start with the initial backoff and double the previous backoff for every subsequent attempt. */

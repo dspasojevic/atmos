@@ -1,5 +1,5 @@
 /* RequireEither.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -21,11 +21,11 @@ import atmos.TerminationPolicy
 import scala.concurrent.duration.FiniteDuration
 
 /**
- * A termination policy that signals for termination after either of the specified policies terminate.
- *
- * @param first  The first of the two policies that may signal for termination.
- * @param second The second of the two policies that may signal for termination.
- */
+  * A termination policy that signals for termination after either of the specified policies terminate.
+  *
+  * @param first  The first of the two policies that may signal for termination.
+  * @param second The second of the two policies that may signal for termination.
+  */
 case class RequireEither(first: TerminationPolicy, second: TerminationPolicy) extends TerminationPolicy {
 
   /* Signal for termination when either of the underlying policies do so. */

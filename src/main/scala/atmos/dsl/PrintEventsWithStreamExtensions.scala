@@ -1,5 +1,5 @@
 /* PrintEventsWithStreamExtensions.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -20,10 +20,10 @@ package atmos.dsl
 import atmos.monitor.{EventClassifier, PrintAction, PrintEventsWithStream}
 
 /**
- * Adds DSL extension methods to the [[atmos.monitor.PrintEventsWithStream]] interface.
- *
- * @param self The print stream event monitor to add the extension methods to.
- */
+  * Adds DSL extension methods to the [[atmos.monitor.PrintEventsWithStream]] interface.
+  *
+  * @param self The print stream event monitor to add the extension methods to.
+  */
 case class PrintEventsWithStreamExtensions(self: PrintEventsWithStream) extends AbstractPrintEventsExtensions {
 
   /* Set the self type to the wrapped type. */

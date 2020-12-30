@@ -1,5 +1,5 @@
 /* LogEventsSpec.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -23,8 +23,8 @@ import scala.concurrent.duration._
 import scala.util.{Failure, Success, Try}
 
 /**
- * Test suite for [[atmos.monitor.LogEvents]].
- */
+  * Test suite for [[atmos.monitor.LogEvents]].
+  */
 class LogEventsSpec extends FlatSpec with Matchers with MockFactory {
 
   import LogAction._
@@ -34,22 +34,17 @@ class LogEventsSpec extends FlatSpec with Matchers with MockFactory {
 
   "LogEvents" should "submit relevant log entries to the underlying target" in {
     for {
-      (action, failAction) <- Seq(
-        LogNothing -> LogAt(Lvl.Error),
-        LogAt(Lvl.Error) -> LogAt(Lvl.Warn),
-        LogAt(Lvl.Warn) -> LogNothing)
-      selector <- Seq(
-        EventClassifier.empty[LogAction[Lvl]],
-        EventClassifier { case Failure(t) if t == thrown => failAction })
+      (action, failAction) <- Seq(LogNothing -> LogAt(Lvl.Error), LogAt(Lvl.Error) -> LogAt(Lvl.Warn), LogAt(Lvl.Warn) -> LogNothing)
+      selector             <- Seq(EventClassifier.empty[LogAction[Lvl]], EventClassifier { case Failure(t) if t == thrown => failAction })
       fixture = new LogEventsFixture(action, selector)
       enabled <- Seq(true, false)
-      name <- Seq(Some("name"), None)
+      name    <- Seq(Some("name"), None)
       attempt <- 1 to 10
       outcome <- Seq(Success(result), Failure(thrown))
     } {
       for {
         backoff <- 1L to 10L map (100.millis * _)
-        silent <- Seq(true, false)
+        silent  <- Seq(true, false)
       } {
         if (!silent) fixture.expectsOnce(enabled, outcome)
         fixture.mock.retrying(name, outcome, attempt, backoff, silent)
@@ -92,7 +87,7 @@ class LogEventsSpec extends FlatSpec with Matchers with MockFactory {
 
   object Lvl {
     object Error extends Lvl
-    object Warn extends Lvl
+    object Warn  extends Lvl
   }
 
 }

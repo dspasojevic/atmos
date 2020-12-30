@@ -1,5 +1,5 @@
 /* deadlines.scala
- * 
+ *
  * Copyright (c) 2015 zman.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,56 +21,53 @@ import scala.concurrent.{ExecutionContext, Future}
 import scala.util.control.NoStackTrace
 
 /**
- * A factory for deadline-bound futures.
- */
+  * A factory for deadline-bound futures.
+  */
 object Deadline {
 
   /**
-   * Returns a future that completes with the result of `future` when it completes or with a `DeadlineException` after
-   * `duration` elapses, whichever comes first.
-   *
-   * @tparam T The underlying type of the resulting future.
-   * @param duration The time limit that the supplied future must complete in.
-   * @param future   The future that is being bound to a deadline.
-   * @param ec       The execution context to perform asynchronous operations on.
-   * @param clock    The clock to use for scheduling the deadline notification.
-   */
+    * Returns a future that completes with the result of `future` when it completes or with a `DeadlineException` after
+    * `duration` elapses, whichever comes first.
+    *
+    * @tparam T The underlying type of the resulting future.
+    * @param duration The time limit that the supplied future must complete in.
+    * @param future   The future that is being bound to a deadline.
+    * @param ec       The execution context to perform asynchronous operations on.
+    * @param clock    The clock to use for scheduling the deadline notification.
+    */
   def apply[T](duration: FiniteDuration)(future: Future[T])(implicit ec: ExecutionContext, clock: Clock): Future[T] =
-    Future firstCompletedOf Vector(
-      future,
-      clock asyncWait duration flatMap { _ => Future failed DeadlineException(duration) })
+    Future firstCompletedOf Vector(future, clock asyncWait duration flatMap { _ => Future failed DeadlineException(duration) })
 
 }
 
 /**
- * The exception returned when a deadline cannot be met.
- *
- * @param duration The time limit that was exceeded.
- */
-case class DeadlineException(duration: FiniteDuration)
-  extends RuntimeException(s"Deadline of $duration was exceeded.") with NoStackTrace
+  * The exception returned when a deadline cannot be met.
+  *
+  * @param duration The time limit that was exceeded.
+  */
+case class DeadlineException(duration: FiniteDuration) extends RuntimeException(s"Deadline of $duration was exceeded.") with NoStackTrace
 
 /**
- * Definition of the deadline DSL.
- */
+  * Definition of the deadline DSL.
+  */
 trait Deadlines {
 
   /**
-   * Extends the `Future` type with the ability to apply a deadline.
-   *
-   * @tparam T The underlying type of the wrapped future.
-   * @param self The future that is being bound to a deadline.
-   */
+    * Extends the `Future` type with the ability to apply a deadline.
+    *
+    * @tparam T The underlying type of the wrapped future.
+    * @param self The future that is being bound to a deadline.
+    */
   implicit class DeadlineSupport[T](val self: Future[T]) {
 
     /**
-     * Returns a future that completes with the result of `self` when it completes or with a `DeadlineException` after
-     * `duration` elapses, whichever comes first.
-     *
-     * @param duration The time limit that the supplied future must complete in.
-     * @param ec       The execution context to perform asynchronous operations on.
-     * @param clock    The clock to use for scheduling the deadline notification.
-     */
+      * Returns a future that completes with the result of `self` when it completes or with a `DeadlineException` after
+      * `duration` elapses, whichever comes first.
+      *
+      * @param duration The time limit that the supplied future must complete in.
+      * @param ec       The execution context to perform asynchronous operations on.
+      * @param clock    The clock to use for scheduling the deadline notification.
+      */
     def withDeadline(duration: FiniteDuration)(implicit ec: ExecutionContext, clock: Clock): Future[T] =
       Deadline(duration)(self)
 
@@ -79,6 +76,6 @@ trait Deadlines {
 }
 
 /**
- * Global implementation of the deadline DSL.
- */
+  * Global implementation of the deadline DSL.
+  */
 object Deadlines extends Deadlines

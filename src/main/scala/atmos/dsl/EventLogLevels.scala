@@ -1,5 +1,5 @@
 /* EventLogLevels.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -20,10 +20,10 @@ package atmos.dsl
 import atmos.monitor
 
 /**
- * A tag for logging system specific level types, used to map generic action names to concrete logging levels.
- *
- * @param T The type of system specific logging level.
- */
+  * A tag for logging system specific level types, used to map generic action names to concrete logging levels.
+  *
+  * @param T The type of system specific logging level.
+  */
 trait EventLogLevels[T] {
 
   /** A cached action that submits error log entries. */
@@ -53,15 +53,15 @@ trait EventLogLevels[T] {
 }
 
 /**
- * Declarations of the default logging level tags.
- */
+  * Declarations of the default logging level tags.
+  */
 object EventLogLevels {
 
   import java.util.logging.Level
 
   /**
-   * A tag for levels used by `java.util.logging`.
-   */
+    * A tag for levels used by `java.util.logging`.
+    */
   implicit object JavaLogLevels extends EventLogLevels[Level] {
     override def errorLevel = Level.SEVERE
 

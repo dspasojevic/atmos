@@ -1,5 +1,5 @@
 /* Slf4jSupportSpec.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2014 zman.io
  *
@@ -24,8 +24,8 @@ import org.scalatest._
 import org.slf4j.Logger
 
 /**
- * Test suite for [[atmos.dsl.Slf4jSupport]].
- */
+  * Test suite for [[atmos.dsl.Slf4jSupport]].
+  */
 class Slf4jSupportSpec extends FlatSpec with Matchers with MockFactory {
 
   "Slf4jSupport" should "support viewing Slf4j-logging-compatible objects as event monitors" in {

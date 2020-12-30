@@ -1,5 +1,5 @@
 /* ErrorClassification.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2014 zman.io
  *
@@ -20,8 +20,8 @@ package atmos
 import scala.util.control.NonFatal
 
 /**
- * Base type for error classifications.
- */
+  * Base type for error classifications.
+  */
 sealed trait ErrorClassification {
 
   /** True if this classification will interrupt the retry operation. */
@@ -33,30 +33,30 @@ sealed trait ErrorClassification {
 }
 
 /**
- * Definitions of the supported error classifications and the default classification function.
- */
+  * Definitions of the supported error classifications and the default classification function.
+  */
 object ErrorClassification extends (Throwable => ErrorClassification) {
 
   /**
-   * Returns a classification for the specified error using the default strategy.
-   *
-   * @param thrown The error to classify.
-   */
+    * Returns a classification for the specified error using the default strategy.
+    *
+    * @param thrown The error to classify.
+    */
   override def apply(thrown: Throwable): ErrorClassification = if (NonFatal(thrown)) Recoverable else Fatal
 
   /**
-   * The classification of errors that will interrupt the retry operation.
-   */
-  case object Fatal extends ErrorClassification {override def isFatal = true}
+    * The classification of errors that will interrupt the retry operation.
+    */
+  case object Fatal extends ErrorClassification { override def isFatal = true }
 
   /**
-   * The classification of errors that will not interrupt the retry operation.
-   */
+    * The classification of errors that will not interrupt the retry operation.
+    */
   case object Recoverable extends ErrorClassification
 
   /**
-   * The classification of errors that will not interrupt the retry operation or record information about the failure.
-   */
-  case object SilentlyRecoverable extends ErrorClassification {override def isSilent = true}
+    * The classification of errors that will not interrupt the retry operation or record information about the failure.
+    */
+  case object SilentlyRecoverable extends ErrorClassification { override def isSilent = true }
 
 }

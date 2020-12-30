@@ -1,5 +1,5 @@
 /* LogAction.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2014 zman.io
  *
@@ -18,13 +18,13 @@
 package atmos.monitor
 
 /**
- * Base type for logging-related actions that can be performed when a retry event is received.
- */
+  * Base type for logging-related actions that can be performed when a retry event is received.
+  */
 sealed trait LogAction[+T]
 
 /**
- * Definition of the logging-related actions that can be performed when a retry event is received.
- */
+  * Definition of the logging-related actions that can be performed when a retry event is received.
+  */
 object LogAction {
 
   /** A log action that will not log anything. */

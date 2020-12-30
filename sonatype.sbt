@@ -1,12 +1,13 @@
-
 //
 // Publishing to Sonatype
 //
 
-credentials += Credentials("Sonatype Nexus Repository Manager",
+credentials += Credentials(
+  "Sonatype Nexus Repository Manager",
   "oss.sonatype.org",
   sys.env.getOrElse("SONATYPE_USER", default = ""),
-  sys.env.getOrElse("SONATYPE_PASSWORD", default = ""))
+  sys.env.getOrElse("SONATYPE_PASSWORD", default = "")
+)
 
 // Your profile name of the sonatype account. The default is the same with the organization value
 publishMavenStyle := true
@@ -43,4 +44,4 @@ pomExtra := (
         <url>http://onoffswitch.net</url>
       </developer>
     </developers>
-  )
+)

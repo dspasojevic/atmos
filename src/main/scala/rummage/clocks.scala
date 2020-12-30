@@ -1,5 +1,5 @@
 /* clocks.scala
- * 
+ *
  * Copyright (c) 2014-2015 linkedin.com
  * Copyright (c) 2014-2015 zman.io
  *
@@ -25,33 +25,33 @@ import scala.concurrent._
 import scala.util.{Failure, Success, Try}
 
 /**
- * A low-level abstraction over time. This class supports querying the absolute time and the monitoring flow of time as
- * well as waiting for future times both synchronously and asynchronously.
- */
+  * A low-level abstraction over time. This class supports querying the absolute time and the monitoring flow of time as
+  * well as waiting for future times both synchronously and asynchronously.
+  */
 trait Clock {
 
   /** Returns the amount of time that has passed since 12:00 am January 1 1970 GMT. */
   def now: FiniteDuration
 
   /**
-   * Returns the amount of time that has passed since an arbitrary point in history. The results of this method are
-   * only useful when compared against the result of other invocations of this method.
-   */
+    * Returns the amount of time that has passed since an arbitrary point in history. The results of this method are
+    * only useful when compared against the result of other invocations of this method.
+    */
   def tick: FiniteDuration
 
   /**
-   * Attempts to wait for the specified duration, completing after it has elapsed or if an error is encountered.
-   *
-   * @param timeout The amount of time to block the calling thread.
-   */
+    * Attempts to wait for the specified duration, completing after it has elapsed or if an error is encountered.
+    *
+    * @param timeout The amount of time to block the calling thread.
+    */
   def syncWait(timeout: FiniteDuration): FiniteDuration
 
   /**
-   * Returns a future that completes after the specified duration has elapsed or if an error is encountered.
-   *
-   * @param timeout The amount of time that must pass before the returned future completes.
-   * @param ec      The execution context to perform wait operations with.
-   */
+    * Returns a future that completes after the specified duration has elapsed or if an error is encountered.
+    *
+    * @param timeout The amount of time that must pass before the returned future completes.
+    * @param ec      The execution context to perform wait operations with.
+    */
   def asyncWait(timeout: FiniteDuration)(implicit ec: ExecutionContext): Future[FiniteDuration]
 
 }
@@ -86,7 +86,7 @@ object Clock {
         if (remaining <= Duration.Zero) {
           timeout + -remaining
         } else {
-          blocking {remaining.unit.sleep(remaining.length)}
+          blocking(remaining.unit.sleep(remaining.length))
           waiting()
         }
       }
@@ -114,9 +114,9 @@ object Clock {
             if (remaining <= Duration.Zero) {
               promise.complete(Success(timeout + -remaining))
             } else {
-              Try {scheduledExecutor.schedule(outer, remaining.length, remaining.unit)} match {
+              Try(scheduledExecutor.schedule(outer, remaining.length, remaining.unit)) match {
                 case Failure(e) => promise.complete(Failure(e))
-                case _ =>
+                case _          =>
               }
             }
           }
@@ -130,9 +130,9 @@ object Clock {
   }
 
   /**
-   * The default clock based on system time, using `Thread.sleep()` for synchronous waiting and a global,
-   * single-threaded `ScheduledExecutorService` for asynchronous waiting.
-   */
+    * The default clock based on system time, using `Thread.sleep()` for synchronous waiting and a global,
+    * single-threaded `ScheduledExecutorService` for asynchronous waiting.
+    */
   implicit object Default extends SystemTime with SyncWaitBySleeping with AsyncWaitWithScheduledExecutor {
 
     /* A global, single-threaded `ScheduledExecutor` to enqueue asynchronous tasks with. */
@@ -151,14 +151,13 @@ object Clock {
 }
 
 /**
- *
- * A clock for use in Akka actors, using system time and Thread.sleep()` for synchronous waiting, but using an Akka
- * `Scheduler` for asynchronous waiting.
- *
- * @param akkaScheduler The Akka scheduler to use.
- */
-case class AkkaClock(akkaScheduler: Scheduler)
-  extends Clock.SystemTime with Clock.SyncWaitBySleeping with AkkaClock.AsyncWaitWithAkkaScheduler
+  *
+  * A clock for use in Akka actors, using system time and Thread.sleep()` for synchronous waiting, but using an Akka
+  * `Scheduler` for asynchronous waiting.
+  *
+  * @param akkaScheduler The Akka scheduler to use.
+  */
+case class AkkaClock(akkaScheduler: Scheduler) extends Clock.SystemTime with Clock.SyncWaitBySleeping with AkkaClock.AsyncWaitWithAkkaScheduler
 
 /** Support for the `AkkaClock` class. */
 object AkkaClock {
@@ -179,9 +178,9 @@ object AkkaClock {
           if (remaining <= Duration.Zero) {
             promise.complete(Success(timeout + -remaining))
           } else {
-            Try {akkaScheduler.scheduleOnce(remaining, this)} match {
+            Try(akkaScheduler.scheduleOnce(remaining, this)) match {
               case Failure(e) => promise.complete(Failure(e))
-              case _ =>
+              case _          =>
             }
           }
         }
@@ -206,16 +205,16 @@ trait AkkaClocks {
 object AkkaClocks extends AkkaClocks
 
 /**
- * A clock that scales the progression of time reported by another clock.
- *
- * The provided `factor` maps time from the underlying clock into time for the scaled clock. For example: a scale of
- * `2.0` will result in the scaled clock reporting the passage of time twice as quickly as the underlying clock, since
- * every second of real time equates to two seconds of scaled time. Conversely, a scale of `0.5` will result in the
- * scaled clock reporting the passage of time half as quickly as the underlying clock.
- *
- * @param factor The scaling factor to apply to the passage of time.
- * @param clock  The underlying clock to scale the time of.
- */
+  * A clock that scales the progression of time reported by another clock.
+  *
+  * The provided `factor` maps time from the underlying clock into time for the scaled clock. For example: a scale of
+  * `2.0` will result in the scaled clock reporting the passage of time twice as quickly as the underlying clock, since
+  * every second of real time equates to two seconds of scaled time. Conversely, a scale of `0.5` will result in the
+  * scaled clock reporting the passage of time half as quickly as the underlying clock.
+  *
+  * @param factor The scaling factor to apply to the passage of time.
+  * @param clock  The underlying clock to scale the time of.
+  */
 case class ScaledClock(factor: Double)(implicit clock: Clock) extends Clock {
 
   // Factor must be a positive, non-infinite real number.
@@ -244,21 +243,21 @@ case class ScaledClock(factor: Double)(implicit clock: Clock) extends Clock {
     clock.asyncWait(scaleFutureTime(timeout)) map scaleHistoricalTime
 
   /**
-   * Scale a duration that transpired in the past. For example, if the scaled clock is running twice as fast as its
-   * underlying clock, then half as much historical time will actually pass.
-   */
+    * Scale a duration that transpired in the past. For example, if the scaled clock is running twice as fast as its
+    * underlying clock, then half as much historical time will actually pass.
+    */
   private def scaleHistoricalTime(duration: FiniteDuration): FiniteDuration = toFiniteDuration(duration * factor)
 
   /**
-   * Scale a duration that is to transpire in the future. For example, if the scaled clock is running twice as fast as
-   * its underlying clock, then half as much future time will actually pass.
-   */
+    * Scale a duration that is to transpire in the future. For example, if the scaled clock is running twice as fast as
+    * its underlying clock, then half as much future time will actually pass.
+    */
   private def scaleFutureTime(duration: FiniteDuration): FiniteDuration = toFiniteDuration(duration / factor)
 
   /** Converts a duration to a finite duration or fails if it is not possible. */
   private def toFiniteDuration(duration: Duration) = duration match {
     case duration: FiniteDuration => duration
-    case duration => throw new IllegalArgumentException(s"Unable to use scaled duration $duration")
+    case duration                 => throw new IllegalArgumentException(s"Unable to use scaled duration $duration")
   }
 
 }
@@ -267,15 +266,15 @@ case class ScaledClock(factor: Double)(implicit clock: Clock) extends Clock {
 object ScaledClock {
 
   /**
-   * Creates a scaled clock by mapping the passage of time in the underlying clock to the passage of time in the scaled
-   * clock.
-   *
-   * For example: `ScaledClock(10.seconds -> 10.minutes)` will create a clock that reports the passing of ten minutes
-   * for every 10 seconds that pass according to the underlying clock.
-   *
-   * @param scale The ratio of time from the underlying clock to time in the scaled clock.
-   * @param clock The underlying clock to scale the time of.
-   */
+    * Creates a scaled clock by mapping the passage of time in the underlying clock to the passage of time in the scaled
+    * clock.
+    *
+    * For example: `ScaledClock(10.seconds -> 10.minutes)` will create a clock that reports the passing of ten minutes
+    * for every 10 seconds that pass according to the underlying clock.
+    *
+    * @param scale The ratio of time from the underlying clock to time in the scaled clock.
+    * @param clock The underlying clock to scale the time of.
+    */
   def apply(scale: (FiniteDuration, FiniteDuration))(implicit clock: Clock): ScaledClock = {
     val (source, destination) = scale
     if (source <= Duration.Zero) {

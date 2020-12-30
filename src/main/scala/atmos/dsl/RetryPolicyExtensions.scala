@@ -1,5 +1,5 @@
 /* RetryPolicyExtensions.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -20,66 +20,66 @@ package atmos.dsl
 import atmos.monitor.ChainedEvents
 
 /**
- * Adds DSL extension methods to the retry policy interface.
- *
- * @param self The retry policy to add the extension methods to.
- */
+  * Adds DSL extension methods to the retry policy interface.
+  *
+  * @param self The retry policy to add the extension methods to.
+  */
 case class RetryPolicyExtensions(self: RetryPolicy) extends AnyVal {
 
   /**
-   * Creates a new retry policy by replacing the underlying policy's termination policy.
-   *
-   * @param termination The termination policy to use.
-   */
+    * Creates a new retry policy by replacing the underlying policy's termination policy.
+    *
+    * @param termination The termination policy to use.
+    */
   def retryFor(termination: TerminationPolicy) = self.copy(termination = termination)
 
   /**
-   * Creates a new retry policy by replacing the underlying policy's backoff policy.
-   *
-   * @param backoff The backoff policy to use.
-   */
+    * Creates a new retry policy by replacing the underlying policy's backoff policy.
+    *
+    * @param backoff The backoff policy to use.
+    */
   def using(backoff: BackoffPolicy) = self.copy(backoff = backoff)
 
   /**
-   * Creates a new retry policy by replacing the underlying policy's monitor.
-   *
-   * @param monitor The monitor to use.
-   */
+    * Creates a new retry policy by replacing the underlying policy's monitor.
+    *
+    * @param monitor The monitor to use.
+    */
   def monitorWith(monitor: EventMonitor) = self.copy(monitor = monitor)
 
   /**
-   * Creates a new retry policy by chaining the specified event monitor to the underlying policy's monitor.
-   *
-   * @param monitor The monitor to chain to the underlying policy's monitor.
-   */
+    * Creates a new retry policy by chaining the specified event monitor to the underlying policy's monitor.
+    *
+    * @param monitor The monitor to chain to the underlying policy's monitor.
+    */
   def alsoMonitorWith(monitor: EventMonitor) = self.copy(monitor = ChainedEvents(self.monitor, monitor))
 
   /**
-   * Creates a new retry policy by replacing the underlying policy's result classifier.
-   *
-   * @param results The result classifier to use.
-   */
+    * Creates a new retry policy by replacing the underlying policy's result classifier.
+    *
+    * @param results The result classifier to use.
+    */
   def onResult(results: ResultClassifier) = self.copy(results = results)
 
   /**
-   * Creates a new retry policy by chaining the specified result classifier to the underlying policy's classifier.
-   *
-   * @param results The result classifier to chain to the underlying policy's classifier.
-   */
+    * Creates a new retry policy by chaining the specified result classifier to the underlying policy's classifier.
+    *
+    * @param results The result classifier to chain to the underlying policy's classifier.
+    */
   def orOnResult(results: ResultClassifier) = self.copy(results = self.results orElse results)
 
   /**
-   * Creates a new retry policy by replacing the underlying policy's error classifier.
-   *
-   * @param errors The error classifier to use.
-   */
+    * Creates a new retry policy by replacing the underlying policy's error classifier.
+    *
+    * @param errors The error classifier to use.
+    */
   def onError(errors: ErrorClassifier) = self.copy(errors = errors)
 
   /**
-   * Creates a new retry policy by chaining the specified error classifier to the underlying policy's classifier.
-   *
-   * @param errors The error classifier to chain to the underlying policy's classifier.
-   */
+    * Creates a new retry policy by chaining the specified error classifier to the underlying policy's classifier.
+    *
+    * @param errors The error classifier to chain to the underlying policy's classifier.
+    */
   def orOnError(errors: ErrorClassifier) = self.copy(errors = self.errors orElse errors)
 
 }

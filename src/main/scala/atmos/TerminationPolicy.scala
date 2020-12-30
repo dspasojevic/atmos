@@ -1,5 +1,5 @@
 /* TerminationPolicy.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2014 zman.io
  *
@@ -20,16 +20,16 @@ package atmos
 import scala.concurrent.duration.FiniteDuration
 
 /**
- * Strategy for determining when to abort a retry operation.
- */
+  * Strategy for determining when to abort a retry operation.
+  */
 trait TerminationPolicy {
 
   /**
-   * Returns true if the retry operation with the specified properties should terminate.
-   *
-   * @param attempts      The number of attempts that have been made so far.
-   * @param nextAttemptAt The duration between when the retry operation began and when the next attempt will occur.
-   */
+    * Returns true if the retry operation with the specified properties should terminate.
+    *
+    * @param attempts      The number of attempts that have been made so far.
+    * @param nextAttemptAt The duration between when the retry operation began and when the next attempt will occur.
+    */
   def shouldTerminate(attempts: Int, nextAttemptAt: FiniteDuration): Boolean
 
 }

@@ -1,5 +1,5 @@
 /* PrintAction.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2014 zman.io
  *
@@ -18,13 +18,13 @@
 package atmos.monitor
 
 /**
- * Base type for printing-related actions that can be performed when a retry event is received.
- */
+  * Base type for printing-related actions that can be performed when a retry event is received.
+  */
 sealed trait PrintAction
 
 /**
- * Definition of the printing-related actions that can be performed when a retry event is received.
- */
+  * Definition of the printing-related actions that can be performed when a retry event is received.
+  */
 object PrintAction {
 
   /** A print action that will not print anything. */

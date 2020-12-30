@@ -1,5 +1,5 @@
 /* LogEventsWithAkkaExtensions.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -21,10 +21,10 @@ import akka.event.Logging
 import atmos.monitor.{EventClassifier, LogAction, LogEventsWithAkka}
 
 /**
- * Adds DSL extension methods to the [[atmos.monitor.LogEventsWithAkka]] interface.
- *
- * @param self The Akka event monitor to add the extension methods to.
- */
+  * Adds DSL extension methods to the [[atmos.monitor.LogEventsWithAkka]] interface.
+  *
+  * @param self The Akka event monitor to add the extension methods to.
+  */
 case class LogEventsWithAkkaExtensions(self: LogEventsWithAkka) extends AbstractLogEventsExtensions {
 
   /* Set the level to Java logging levels. */

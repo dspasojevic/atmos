@@ -1,5 +1,5 @@
 /* RequireBothSpec.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2014 zman.io
  *
@@ -21,19 +21,19 @@ import org.scalatest._
 import scala.concurrent.duration._
 
 /**
- * Test suite for [[atmos.termination.RequireBoth]].
- */
+  * Test suite for [[atmos.termination.RequireBoth]].
+  */
 class RequireBothSpec extends FlatSpec with Matchers {
 
   "RequireBoth" should "signal for termination only when both of its child policies do" in {
     val policies = for {
-      first <- Seq(AlwaysTerminate, NeverTerminate)
+      first  <- Seq(AlwaysTerminate, NeverTerminate)
       second <- Seq(AlwaysTerminate, NeverTerminate)
     } yield RequireBoth(first, second) -> (first == AlwaysTerminate && second == AlwaysTerminate)
     for {
       (policy, expectedResult) <- policies
-      nextAttemptAt <- 1L to 100L map (100.millis * _)
-      attempt <- 1 to 10
+      nextAttemptAt            <- 1L to 100L map (100.millis * _)
+      attempt                  <- 1 to 10
     } policy.shouldTerminate(attempt, nextAttemptAt) shouldEqual expectedResult
   }
 

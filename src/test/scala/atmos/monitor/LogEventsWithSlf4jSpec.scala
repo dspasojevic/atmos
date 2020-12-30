@@ -1,5 +1,5 @@
 /* LogEventsWithSlf4jSpec.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -22,8 +22,8 @@ import org.scalatest._
 import org.slf4j.Logger
 
 /**
- * Test suite for [[atmos.monitor.LogEventsWithSlf4j]].
- */
+  * Test suite for [[atmos.monitor.LogEventsWithSlf4j]].
+  */
 class LogEventsWithSlf4jSpec extends FlatSpec with Matchers with MockFactory {
 
   import LogEventsWithSlf4j.Slf4jLevel
@@ -36,7 +36,7 @@ class LogEventsWithSlf4jSpec extends FlatSpec with Matchers with MockFactory {
       fixture = new LoggerFixture(level)
       monitor = LogEventsWithSlf4j(fixture.logger)
       enabled <- Seq(true, false)
-      t <- Seq(Some(thrown), None)
+      t       <- Seq(Some(thrown), None)
     } {
       fixture.expectIsEnabledOnce(enabled)
       monitor.isLoggable(level) shouldBe enabled
@@ -50,27 +50,29 @@ class LogEventsWithSlf4jSpec extends FlatSpec with Matchers with MockFactory {
 
     def expectIsEnabledOnce(enabled: Boolean) = level match {
       case Slf4jLevel.Error => (logger.isErrorEnabled _: () => Boolean).expects().returns(enabled).once
-      case Slf4jLevel.Warn => (logger.isWarnEnabled _: () => Boolean).expects().returns(enabled).once
-      case Slf4jLevel.Info => (logger.isInfoEnabled _: () => Boolean).expects().returns(enabled).once
+      case Slf4jLevel.Warn  => (logger.isWarnEnabled _: () => Boolean).expects().returns(enabled).once
+      case Slf4jLevel.Info  => (logger.isInfoEnabled _: () => Boolean).expects().returns(enabled).once
       case Slf4jLevel.Debug => (logger.isDebugEnabled _: () => Boolean).expects().returns(enabled).once
       case Slf4jLevel.Trace => (logger.isTraceEnabled _: () => Boolean).expects().returns(enabled).once
     }
 
     def expectLogOnce(message: String, thrown: Option[Throwable]) = thrown match {
-      case Some(t) => level match {
-        case Slf4jLevel.Error => (logger.error(_: String, _: Throwable)).expects(message, t).once
-        case Slf4jLevel.Warn => (logger.warn(_: String, _: Throwable)).expects(message, t).once
-        case Slf4jLevel.Info => (logger.info(_: String, _: Throwable)).expects(message, t).once
-        case Slf4jLevel.Debug => (logger.debug(_: String, _: Throwable)).expects(message, t).once
-        case Slf4jLevel.Trace => (logger.trace(_: String, _: Throwable)).expects(message, t).once
-      }
-      case None => level match {
-        case Slf4jLevel.Error => (logger.error(_: String)).expects(message).once
-        case Slf4jLevel.Warn => (logger.warn(_: String)).expects(message).once
-        case Slf4jLevel.Info => (logger.info(_: String)).expects(message).once
-        case Slf4jLevel.Debug => (logger.debug(_: String)).expects(message).once
-        case Slf4jLevel.Trace => (logger.trace(_: String)).expects(message).once
-      }
+      case Some(t) =>
+        level match {
+          case Slf4jLevel.Error => (logger.error(_: String, _: Throwable)).expects(message, t).once
+          case Slf4jLevel.Warn  => (logger.warn(_: String, _: Throwable)).expects(message, t).once
+          case Slf4jLevel.Info  => (logger.info(_: String, _: Throwable)).expects(message, t).once
+          case Slf4jLevel.Debug => (logger.debug(_: String, _: Throwable)).expects(message, t).once
+          case Slf4jLevel.Trace => (logger.trace(_: String, _: Throwable)).expects(message, t).once
+        }
+      case None =>
+        level match {
+          case Slf4jLevel.Error => (logger.error(_: String)).expects(message).once
+          case Slf4jLevel.Warn  => (logger.warn(_: String)).expects(message).once
+          case Slf4jLevel.Info  => (logger.info(_: String)).expects(message).once
+          case Slf4jLevel.Debug => (logger.debug(_: String)).expects(message).once
+          case Slf4jLevel.Trace => (logger.trace(_: String)).expects(message).once
+        }
     }
   }
 

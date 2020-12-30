@@ -1,5 +1,5 @@
 /* RequireEitherSpec.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2014 zman.io
  *
@@ -21,19 +21,19 @@ import org.scalatest._
 import scala.concurrent.duration._
 
 /**
- * Test suite for [[atmos.termination.RequireEither]].
- */
+  * Test suite for [[atmos.termination.RequireEither]].
+  */
 class RequireEitherSpec extends FlatSpec with Matchers {
 
   "RequireEither" should "signal for termination as soon as either of its child policies do" in {
     val policies = for {
-      first <- Seq(AlwaysTerminate, NeverTerminate)
+      first  <- Seq(AlwaysTerminate, NeverTerminate)
       second <- Seq(AlwaysTerminate, NeverTerminate)
     } yield RequireEither(first, second) -> (first == AlwaysTerminate || second == AlwaysTerminate)
     for {
       (policy, expectedResult) <- policies
-      nextAttemptAt <- 1L to 100L map (100.millis * _)
-      attempt <- 1 to 10
+      nextAttemptAt            <- 1L to 100L map (100.millis * _)
+      attempt                  <- 1 to 10
     } policy.shouldTerminate(attempt, nextAttemptAt) shouldEqual expectedResult
   }
 

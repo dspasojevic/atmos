@@ -1,5 +1,5 @@
 /* AlwaysTerminate.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -20,8 +20,8 @@ package atmos.termination
 import scala.concurrent.duration.FiniteDuration
 
 /**
- * A termination policy that always signals for termination.
- */
+  * A termination policy that always signals for termination.
+  */
 case object AlwaysTerminate extends atmos.TerminationPolicy {
 
   /* Always signal for termination. */

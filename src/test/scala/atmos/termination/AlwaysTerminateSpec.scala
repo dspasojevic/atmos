@@ -1,5 +1,5 @@
 /* AlwaysTerminateSpec.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2014 zman.io
  *
@@ -21,14 +21,14 @@ import org.scalatest._
 import scala.concurrent.duration._
 
 /**
- * Test suite for [[atmos.termination.AlwaysTerminate]].
- */
+  * Test suite for [[atmos.termination.AlwaysTerminate]].
+  */
 class AlwaysTerminateSpec extends FlatSpec with Matchers {
 
   "AlwaysTerminate" should "signal for termination on any combination of inputs" in {
     for {
       nextAttemptAt <- 1L to 100L map (100.millis * _)
-      attempt <- 1 to 10
+      attempt       <- 1 to 10
     } AlwaysTerminate.shouldTerminate(attempt, nextAttemptAt) shouldEqual true
   }
 

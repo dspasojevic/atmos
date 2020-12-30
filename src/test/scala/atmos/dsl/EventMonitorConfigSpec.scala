@@ -1,5 +1,5 @@
 /* EventMonitorConfigSpec.scala
- * 
+ *
  * Copyright (c) 2015 zman.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,7 +13,7 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- * 
+ *
  * Portions of this code are derived from https://github.com/aboisvert/pixii
  * and https://github.com/lpryor/squishy.
  */
@@ -30,8 +30,8 @@ import scala.concurrent.duration._
 import scala.util.{Failure, Success}
 
 /**
- * Test suite for the various ways to configure an [[atmos.EventMonitor]].
- */
+  * Test suite for the various ways to configure an [[atmos.EventMonitor]].
+  */
 class EventMonitorConfigSpec extends FlatSpec with Matchers with MockFactory {
 
   val success = Success("")
@@ -45,11 +45,11 @@ class EventMonitorConfigSpec extends FlatSpec with Matchers with MockFactory {
     }
     new TestCase[PrintStream, PrintEventsWithStream, PrintAction] {
       override def expect(action: PrintAction) = action match {
-        case PrintAction.PrintMessage => mockPrinln expects * noMoreThanTwice
+        case PrintAction.PrintMessage              => mockPrinln expects * noMoreThanTwice
         case PrintAction.PrintMessageAndStackTrace => mockPrinln expects * anyNumberOfTimes
-        case _ =>
+        case _                                     =>
       }
-    } run(target, PrintAction.PrintNothing, PrintAction.PrintMessage, PrintAction.PrintMessageAndStackTrace)
+    } run (target, PrintAction.PrintNothing, PrintAction.PrintMessage, PrintAction.PrintMessageAndStackTrace)
   }
 
   "Print writers" should "allow for fine-grained configuration" in {
@@ -59,11 +59,11 @@ class EventMonitorConfigSpec extends FlatSpec with Matchers with MockFactory {
     }
     new TestCase[PrintWriter, PrintEventsWithWriter, PrintAction] {
       override def expect(action: PrintAction) = action match {
-        case PrintAction.PrintMessage => mockPrinln expects * noMoreThanTwice
+        case PrintAction.PrintMessage              => mockPrinln expects * noMoreThanTwice
         case PrintAction.PrintMessageAndStackTrace => mockPrinln expects * anyNumberOfTimes
-        case _ =>
+        case _                                     =>
       }
-    } run(target, PrintAction.PrintNothing, PrintAction.PrintMessage, PrintAction.PrintMessageAndStackTrace)
+    } run (target, PrintAction.PrintNothing, PrintAction.PrintMessage, PrintAction.PrintMessageAndStackTrace)
   }
 
   "Java loggers" should "allow for fine-grained configuration" in {
@@ -76,9 +76,9 @@ class EventMonitorConfigSpec extends FlatSpec with Matchers with MockFactory {
     new TestCase[JLogger, LogEventsWithJava, LogAction[JLevel]] {
       override def expect(action: LogAction[JLevel]) = action match {
         case LogAction.LogAt(JLevel.INFO | JLevel.WARNING) => mockLogThrown.expects(*, *, *) once
-        case _ =>
+        case _                                             =>
       }
-    } run(target, LogAction.LogNothing, LogAction.LogAt(JLevel.INFO), LogAction.LogAt(JLevel.WARNING))
+    } run (target, LogAction.LogNothing, LogAction.LogAt(JLevel.INFO), LogAction.LogAt(JLevel.WARNING))
   }
 
   "Slf4j loggers" should "allow for fine-grained configuration" in {
@@ -90,10 +90,10 @@ class EventMonitorConfigSpec extends FlatSpec with Matchers with MockFactory {
     new TestCase[Slf4jLogger, LogEventsWithSlf4j, LogAction[Slf4jLevel]] {
       override def expect(action: LogAction[Slf4jLevel]) = action match {
         case LogAction.LogAt(Slf4jLevel.Info) => (target.info(_: String, _: Throwable)).expects(*, *) once
-        case LogAction.LogAt(Slf4jLevel.Warn) => (target.warn(_: String, _: Throwable)) expects(*, *) once
-        case _ =>
+        case LogAction.LogAt(Slf4jLevel.Warn) => (target.warn(_: String, _: Throwable)) expects (*, *) once
+        case _                                =>
       }
-    } run(target, LogAction.LogNothing, LogAction.LogAt(Slf4jLevel.Info), LogAction.LogAt(Slf4jLevel.Warn))
+    } run (target, LogAction.LogNothing, LogAction.LogAt(Slf4jLevel.Info), LogAction.LogAt(Slf4jLevel.Warn))
   }
 
   "Akka loggers" should "allow for fine-grained configuration" in {
@@ -101,11 +101,11 @@ class EventMonitorConfigSpec extends FlatSpec with Matchers with MockFactory {
     val target = new AkkaLoggerFixture
     new TestCase[AkkaLogger, LogEventsWithAkka, LogAction[AkkaLogging.LogLevel]] {
       override def expect(action: LogAction[AkkaLogging.LogLevel]) = action match {
-        case LogAction.LogAt(AkkaLogging.InfoLevel) => target.log.expects(AkkaLogging.InfoLevel, *) once
+        case LogAction.LogAt(AkkaLogging.InfoLevel)    => target.log.expects(AkkaLogging.InfoLevel, *) once
         case LogAction.LogAt(AkkaLogging.WarningLevel) => target.log.expects(AkkaLogging.WarningLevel, *) once
-        case _ =>
+        case _                                         =>
       }
-    } run(target.mock, LogAction.LogNothing, LogAction.LogAt(AkkaLogging.InfoLevel), LogAction.LogAt(AkkaLogging.WarningLevel))
+    } run (target.mock, LogAction.LogNothing, LogAction.LogAt(AkkaLogging.InfoLevel), LogAction.LogAt(AkkaLogging.WarningLevel))
   }
 
   /** A utility for testing the various events handled by monitor DSL methods. */
@@ -120,16 +120,10 @@ class EventMonitorConfigSpec extends FlatSpec with Matchers with MockFactory {
     def expect(action: MonitorAction): Unit
 
     /** Runs this test case. */
-    def run(
-      target: T,
-      onSuccess: MonitorAction,
-      onException: MonitorAction,
-      onError: MonitorAction)(
-      implicit ev: T => Monitor,
-      evx: Monitor => AbstractEventMonitorExtensions {
-        type Self = Monitor
-        type Action = MonitorAction
-      }) = {
+    def run(target: T, onSuccess: MonitorAction, onException: MonitorAction, onError: MonitorAction)(implicit ev: T => Monitor, evx: Monitor => AbstractEventMonitorExtensions {
+      type Self = Monitor
+      type Action = MonitorAction
+    }) = {
       val monitor: Monitor = target
       locally {
         val test = (monitor

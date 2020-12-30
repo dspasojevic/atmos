@@ -1,5 +1,5 @@
 /* LimitDuration.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -20,10 +20,10 @@ package atmos.termination
 import scala.concurrent.duration.FiniteDuration
 
 /**
- * A termination policy that limits the amount of time spent retrying.
- *
- * @param maxDuration The maximum duration that a retry operation should not exceed.
- */
+  * A termination policy that limits the amount of time spent retrying.
+  *
+  * @param maxDuration The maximum duration that a retry operation should not exceed.
+  */
 case class LimitDuration(maxDuration: FiniteDuration = defaultMaxDuration) extends atmos.TerminationPolicy {
 
   /* Signal for termination when the maximum duration threshold is reached. */

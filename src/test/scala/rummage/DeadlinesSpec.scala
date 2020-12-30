@@ -1,5 +1,5 @@
 /* DeadlinesSpec.scala
- * 
+ *
  * Copyright (c) 2015 zman.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,20 +21,20 @@ import scala.concurrent.duration._
 import scala.concurrent._
 
 /**
- * Test suite for the rummage deadline API.
- */
+  * Test suite for the rummage deadline API.
+  */
 class DeadlinesSpec extends FlatSpec with Matchers {
 
   import Deadlines._
   import ExecutionContext.Implicits._
 
   "Deadlines" should "place a hard limit on the amount of time it takes for a future to complete" in {
-    complete {Future {waitFor(2 seconds); "hi"} withDeadline 4.seconds} shouldBe "hi"
-    a[DeadlineException] should be thrownBy {complete {Future {waitFor(4 seconds); "hi"} withDeadline 2.seconds}}
+    complete(Future { waitFor(2 seconds); "hi" } withDeadline 4.seconds) shouldBe "hi"
+    a[DeadlineException] should be thrownBy { complete(Future { waitFor(4 seconds); "hi" } withDeadline 2.seconds) }
   }
 
   def waitFor(duration: FiniteDuration) =
-    blocking {Thread.sleep(duration toMillis)}
+    blocking(Thread.sleep(duration toMillis))
 
   def complete[T](future: Future[T]): T =
     Await.result(future, Duration.Inf)

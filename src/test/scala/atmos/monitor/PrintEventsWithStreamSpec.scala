@@ -1,5 +1,5 @@
 /* PrintEventsWithStreamSpec.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2014 zman.io
  *
@@ -21,8 +21,8 @@ import java.io.{ByteArrayOutputStream, PrintStream}
 import org.scalatest._
 
 /**
- * Test suite for [[atmos.monitor.PrintEventsWithStream]].
- */
+  * Test suite for [[atmos.monitor.PrintEventsWithStream]].
+  */
 class PrintEventsWithStreamSpec extends FlatSpec with Matchers {
 
   val encoding = "UTF-8"

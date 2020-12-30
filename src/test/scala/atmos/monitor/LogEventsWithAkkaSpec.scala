@@ -1,5 +1,5 @@
 /* LogEventsWithAkkaSpec.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -22,8 +22,8 @@ import org.scalamock.scalatest.MockFactory
 import org.scalatest._
 
 /**
- * Test suite for [[atmos.monitor.LogEventsWithAkka]].
- */
+  * Test suite for [[atmos.monitor.LogEventsWithAkka]].
+  */
 class LogEventsWithAkkaSpec extends FlatSpec with Matchers with MockFactory {
 
   val thrown = new RuntimeException
@@ -32,9 +32,9 @@ class LogEventsWithAkkaSpec extends FlatSpec with Matchers with MockFactory {
     val fixture = new LoggerFixture
     val monitor = LogEventsWithAkka(fixture.mock)
     for {
-      level <- Seq(Logging.ErrorLevel, Logging.WarningLevel, Logging.InfoLevel, Logging.DebugLevel)
+      level   <- Seq(Logging.ErrorLevel, Logging.WarningLevel, Logging.InfoLevel, Logging.DebugLevel)
       enabled <- Seq(true, false)
-      t <- Seq(Some(thrown), None)
+      t       <- Seq(Some(thrown), None)
     } {
       fixture.isEnabled.expects(level).returns(enabled).once
       monitor.isLoggable(level) shouldBe enabled

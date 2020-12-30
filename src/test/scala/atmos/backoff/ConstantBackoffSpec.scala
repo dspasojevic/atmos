@@ -1,5 +1,5 @@
 /* ConstantBackoffSpec.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -22,8 +22,8 @@ import scala.concurrent.duration._
 import scala.util.{Failure, Success}
 
 /**
- * Test suite for [[atmos.backoff.ConstantBackoff]].
- */
+  * Test suite for [[atmos.backoff.ConstantBackoff]].
+  */
 class ConstantBackoffSpec extends FlatSpec with Matchers {
 
   val result = "result"

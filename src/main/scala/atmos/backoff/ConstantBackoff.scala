@@ -1,5 +1,5 @@
 /* ConstantBackoff.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -21,10 +21,10 @@ import scala.concurrent.duration.FiniteDuration
 import scala.util.Try
 
 /**
- * A policy that uses the same backoff after every retry.
- *
- * @param initialBackoff The backoff used for every retry.
- */
+  * A policy that uses the same backoff after every retry.
+  *
+  * @param initialBackoff The backoff used for every retry.
+  */
 case class ConstantBackoff(backoff: FiniteDuration = defaultBackoff) extends atmos.BackoffPolicy {
 
   /* Return the constant backoff value. */

@@ -1,5 +1,5 @@
 /* PrintEvents.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -21,8 +21,8 @@ import scala.concurrent.duration.FiniteDuration
 import scala.util.{Failure, Try}
 
 /**
- * Base type for event monitors that print information about retry events as text.
- */
+  * Base type for event monitors that print information about retry events as text.
+  */
 trait PrintEvents extends atmos.EventMonitor with FormatEvents {
 
   import PrintAction._
@@ -70,7 +70,7 @@ trait PrintEvents extends atmos.EventMonitor with FormatEvents {
   /** Utility method that handles locking on the target object when printing both a message and a stack trace. */
   private def printEvent(message: String, outcome: Try[Any], printStackTrace: Boolean): Unit = outcome match {
     case Failure(t) if printStackTrace => printMessageAndStackTrace(message, t)
-    case _ => printMessage(message)
+    case _                             => printMessage(message)
   }
 
   /** Prints a message the to underlying target object. */

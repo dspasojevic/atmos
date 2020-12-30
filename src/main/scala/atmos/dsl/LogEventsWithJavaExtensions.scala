@@ -1,5 +1,5 @@
 /* LogEventsWithJavaExtensions.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -20,8 +20,8 @@ package atmos.dsl
 import atmos.monitor.{EventClassifier, LogAction, LogEventsWithJava}
 
 /**
- * Exposes extensions on any instance of `monitor.LogEventsWithJava`.
- */
+  * Exposes extensions on any instance of `monitor.LogEventsWithJava`.
+  */
 case class LogEventsWithJavaExtensions(self: LogEventsWithJava) extends AbstractLogEventsExtensions {
 
   /* Set the level to Java logging levels. */

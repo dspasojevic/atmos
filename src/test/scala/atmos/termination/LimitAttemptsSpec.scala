@@ -1,5 +1,5 @@
 /* LimitAttemptsSpec.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2014 zman.io
  *
@@ -21,15 +21,15 @@ import org.scalatest._
 import scala.concurrent.duration._
 
 /**
- * Test suite for [[atmos.termination.LimitAttempts]].
- */
+  * Test suite for [[atmos.termination.LimitAttempts]].
+  */
 class LimitAttemptsSpec extends FlatSpec with Matchers {
 
   "LimitAttempts" should "signal for termination after a specified number of attempts have been made" in {
     val policy = LimitAttempts(5)
     for {
       nextAttemptAt <- 1L to 100L map (100.millis * _)
-      attempt <- 1 to 10
+      attempt       <- 1 to 10
     } policy.shouldTerminate(attempt, nextAttemptAt) shouldEqual attempt >= policy.maxAttempts
   }
 

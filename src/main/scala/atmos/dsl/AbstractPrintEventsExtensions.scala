@@ -1,5 +1,5 @@
 /* AbstractPrintEventsExtensions.scala
- * 
+ *
  * Copyright (c) 2015 zman.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,8 +19,8 @@ package atmos.dsl
 import atmos.monitor.{EventClassifier, PrintAction, PrintEvents}
 
 /**
- * A base class that implements DSL extension methods for all printing event monitors.
- */
+  * A base class that implements DSL extension methods for all printing event monitors.
+  */
 trait AbstractPrintEventsExtensions extends AbstractEventMonitorExtensions {
 
   /* Supported types all extend `PrintEvents`. */

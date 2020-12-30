@@ -1,5 +1,5 @@
 /* AkkaSupportSpec.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2014 zman.io
  *
@@ -23,8 +23,8 @@ import atmos.monitor._
 import org.scalatest._
 
 /**
- * Test suite for [[atmos.dsl.AkkaSupport]].
- */
+  * Test suite for [[atmos.dsl.AkkaSupport]].
+  */
 class AkkaSupportSpec extends FlatSpec with Matchers {
 
   "AkkaSupport" should "support viewing Akka-logging-compatible objects as event monitors" in {

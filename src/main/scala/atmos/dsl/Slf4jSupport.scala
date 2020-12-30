@@ -1,5 +1,5 @@
 /* Slf4jSupport.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -23,38 +23,38 @@ import org.slf4j.Logger
 import scala.language.implicitConversions
 
 /**
- * Separate namespace for optional SLF4J support.
- */
+  * Separate namespace for optional SLF4J support.
+  */
 object Slf4jSupport {
 
   /**
-   * Creates a new event monitor that submits events to a SLF4J logger.
-   *
-   * @param logger The SLF4J logger to supply with event messages.
-   */
+    * Creates a new event monitor that submits events to a SLF4J logger.
+    *
+    * @param logger The SLF4J logger to supply with event messages.
+    */
   implicit def slf4jLoggerToEventMonitor(logger: Logger): monitor.LogEventsWithSlf4j =
     monitor.LogEventsWithSlf4j(logger)
 
   /**
-   * Creates a new event monitor extension interface for a SLF4J logger.
-   *
-   * @param logger The logger to create a new event monitor extension interface for.
-   */
+    * Creates a new event monitor extension interface for a SLF4J logger.
+    *
+    * @param logger The logger to create a new event monitor extension interface for.
+    */
   implicit def slf4jLoggerToEventMonitorExtensions(logger: Logger): LogEventsWithSlf4jExtensions =
     new LogEventsWithSlf4jExtensions(logger)
 
   /**
-   * Provides an implicit extension of the [[atmos.monitor.LogEventsWithSlf4j]] interface.
-   *
-   * @param policy The Slf4j logging event monitor to extend the interface of.
-   */
+    * Provides an implicit extension of the [[atmos.monitor.LogEventsWithSlf4j]] interface.
+    *
+    * @param policy The Slf4j logging event monitor to extend the interface of.
+    */
   implicit def logEventsWithSlf4jToLogEventsWithSlf4jExtensions //
   (policy: monitor.LogEventsWithSlf4j): LogEventsWithSlf4jExtensions =
     LogEventsWithSlf4jExtensions(policy)
 
   /**
-   * A tag for levels provided for Slf4j.
-   */
+    * A tag for levels provided for Slf4j.
+    */
   implicit object Slf4jEventLogLevels extends EventLogLevels[Slf4jLevel] {
     override def errorLevel = Slf4jLevel.Error
 
@@ -66,4 +66,3 @@ object Slf4jSupport {
   }
 
 }
-

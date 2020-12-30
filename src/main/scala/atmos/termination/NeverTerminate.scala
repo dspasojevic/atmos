@@ -1,5 +1,5 @@
 /* NeverTerminate.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -20,8 +20,8 @@ package atmos.termination
 import scala.concurrent.duration.FiniteDuration
 
 /**
- * A termination policy that never signals for termination.
- */
+  * A termination policy that never signals for termination.
+  */
 case object NeverTerminate extends atmos.TerminationPolicy {
 
   /* Never signal for termination. */

@@ -1,5 +1,5 @@
 /* RandomizedBackoff.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -22,11 +22,11 @@ import scala.concurrent.duration._
 import scala.util.{Random, Try}
 
 /**
- * A policy that randomizes the result of another policy by adding a random duration in the specified range.
- *
- * @param policy The base policy to randomize the result of.
- * @param range  The range of values that may be used to modify the result of the base policy.
- */
+  * A policy that randomizes the result of another policy by adding a random duration in the specified range.
+  *
+  * @param policy The base policy to randomize the result of.
+  * @param range  The range of values that may be used to modify the result of the base policy.
+  */
 case class RandomizedBackoff(policy: BackoffPolicy, range: (FiniteDuration, FiniteDuration)) extends BackoffPolicy {
 
   /** The definition of the range that random values are drawn from. */

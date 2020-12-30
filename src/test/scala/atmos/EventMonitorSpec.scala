@@ -1,5 +1,5 @@
 /* EventMonitorSpec.scala
- * 
+ *
  * Copyright (c) 2015 zman.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,8 +22,8 @@ import scala.concurrent.duration._
 import scala.util.{Failure, Try}
 
 /**
- * Test suite for [[atmos.EventMonitor]].
- */
+  * Test suite for [[atmos.EventMonitor]].
+  */
 class EventMonitorSpec extends FlatSpec with Matchers with MockFactory {
 
   val thrown = new RuntimeException

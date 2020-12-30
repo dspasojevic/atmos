@@ -1,5 +1,5 @@
 /* LimitAttemptsTerminationFactory.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2014 zman.io
  *
@@ -20,10 +20,10 @@ package atmos.dsl
 import atmos.termination
 
 /**
- * Adds a termination policy factory named `attempts` to `Int`.
- *
- * @param self The maximum number of attempts that the resulting termination policy will specify.
- */
+  * Adds a termination policy factory named `attempts` to `Int`.
+  *
+  * @param self The maximum number of attempts that the resulting termination policy will specify.
+  */
 case class LimitAttemptsTerminationFactory(self: Int) extends AnyVal {
 
   /** Creates a termination policy that limits a retry operation to `self` attempts. */

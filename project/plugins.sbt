@@ -1,5 +1,9 @@
-addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.5.0")
+// For formatting of the source code.
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.3.2")
 
-addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "1.1")
+// Coverage plugin
+addSbtPlugin("org.scoverage" % "sbt-scoverage" % "1.6.1")
 
-addSbtPlugin("com.jsuereth" % "sbt-pgp" % "1.0.0")
+addSbtPlugin("org.xerial.sbt" % "sbt-sonatype" % "3.9.5")
+
+addSbtPlugin("com.jsuereth" % "sbt-pgp" % "2.0.1")

@@ -1,5 +1,5 @@
 /* ClocksSpec.scala
- * 
+ *
  * Copyright (c) 2014-2015 linkedin.com
  * Copyright (c) 2014-2015 zman.io
  *
@@ -25,8 +25,8 @@ import scala.concurrent.{Await, ExecutionContext, Future}
 import scala.language.postfixOps
 
 /**
- * Test suite for the rummage clock API.
- */
+  * Test suite for the rummage clock API.
+  */
 class ClocksSpec extends FlatSpec with Matchers with MockFactory {
 
   import ExecutionContext.Implicits._
@@ -44,16 +44,14 @@ class ClocksSpec extends FlatSpec with Matchers with MockFactory {
     timed(clock.syncWait(500 millis), syncWaitTolerance).toMillis shouldBe 500L +- syncWaitTolerance.toMillis
     // Verify that the clock correctly asynchronously waits.
     timed(Await.result(clock.asyncWait(1 second), Duration.Inf), asyncWaitTolerance).toMillis shouldBe
-    1000L +- asyncWaitTolerance.toMillis
+      1000L +- asyncWaitTolerance.toMillis
   }
 
   "The Akka clock" should "use an Akka scheduler for asynchronous waiting" in {
     val scheduler = new SchedulerMock
     val clock = AkkaClock(scheduler.mock)
     // Verify that the clock correctly asynchronously waits.
-    scheduler.scheduleOnce.expects(*, *, global).atLeastOnce.onCall {
-      (f: FiniteDuration, r: Runnable, _: ExecutionContext) => Thread.sleep(f toMillis); r.run(); null
-    }
+    scheduler.scheduleOnce.expects(*, *, global).atLeastOnce.onCall { (f: FiniteDuration, r: Runnable, _: ExecutionContext) => Thread.sleep(f toMillis); r.run(); null }
     Await.result(clock.asyncWait(1 second), Duration.Inf)
   }
 
@@ -81,8 +79,11 @@ class ClocksSpec extends FlatSpec with Matchers with MockFactory {
     (clock.syncWait _).expects(100 millis).once.returns(100 millis)
     scaled.syncWait(200 millis) shouldBe 200.millis
     // Verify that the clock correctly asynchronously waits.
-    (clock.asyncWait(_: FiniteDuration)(_: ExecutionContext))
-      .expects(100 millis, global).once.returns(Future.successful(100 millis))
+    (clock
+      .asyncWait(_: FiniteDuration)(_: ExecutionContext))
+      .expects(100 millis, global)
+      .once
+      .returns(Future.successful(100 millis))
     Await.result(scaled.asyncWait(200 millis), Duration.Inf) shouldBe 200.millis
   }
 
@@ -99,8 +100,11 @@ class ClocksSpec extends FlatSpec with Matchers with MockFactory {
     (clock.syncWait _).expects(100 millis).once.returns(100 millis)
     scaled.syncWait(50 millis) shouldBe 50.millis
     // Verify that the clock correctly asynchronously waits.
-    (clock.asyncWait(_: FiniteDuration)(_: ExecutionContext))
-      .expects(100 millis, global).once.returns(Future.successful(100 millis))
+    (clock
+      .asyncWait(_: FiniteDuration)(_: ExecutionContext))
+      .expects(100 millis, global)
+      .once
+      .returns(Future.successful(100 millis))
     Await.result(scaled.asyncWait(50 millis), Duration.Inf) shouldBe 50.millis
   }
 
@@ -110,7 +114,7 @@ class ClocksSpec extends FlatSpec with Matchers with MockFactory {
     an[IllegalArgumentException] should be thrownBy ScaledClock(Double.NaN)
     an[IllegalArgumentException] should be thrownBy ScaledClock(Double.PositiveInfinity)
     an[IllegalArgumentException] should be thrownBy ScaledClock(Double.NegativeInfinity)
-    an[IllegalArgumentException] should be thrownBy ScaledClock(1.second -> 0.seconds)
+    an[IllegalArgumentException] should be thrownBy ScaledClock(1.second  -> 0.seconds)
     an[IllegalArgumentException] should be thrownBy ScaledClock(0.seconds -> 1.second)
   }
 

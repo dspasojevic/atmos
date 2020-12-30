@@ -1,5 +1,5 @@
 /* package.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2014 zman.io
  *
@@ -20,8 +20,8 @@ package atmos
 import scala.concurrent.duration._
 
 /**
- * The `atmos.backoff` package provides common implementations of the [[atmos.BackoffPolicy]] trait.
- */
+  * The `atmos.backoff` package provides common implementations of the [[atmos.BackoffPolicy]] trait.
+  */
 package object backoff {
 
   /** The default backoff duration. */

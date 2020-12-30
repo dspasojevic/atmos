@@ -1,5 +1,5 @@
 /* ChainedEvents.scala
- * 
+ *
  * Copyright (c) 2015 zman.io
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,11 +21,11 @@ import scala.concurrent.duration.FiniteDuration
 import scala.util.Try
 
 /**
- * A monitor that will always pass invocations on to the two specified monitors.
- *
- * @param firstMonitor  The first event monitor to pass all invocations to.
- * @param secondMonitor The second event monitor to pass all invocations to.
- */
+  * A monitor that will always pass invocations on to the two specified monitors.
+  *
+  * @param firstMonitor  The first event monitor to pass all invocations to.
+  * @param secondMonitor The second event monitor to pass all invocations to.
+  */
 case class ChainedEvents(firstMonitor: EventMonitor, secondMonitor: EventMonitor) extends EventMonitor {
 
   /* Notify both monitors of the retrying event. */
@@ -34,7 +34,8 @@ case class ChainedEvents(firstMonitor: EventMonitor, secondMonitor: EventMonitor
       firstMonitor.retrying(name, outcome, attempts, backoff, silent)
     } catch {
       case thrown: Throwable =>
-        try secondMonitor.retrying(name, outcome, attempts, backoff, silent) catch {case _: Throwable =>}
+        try secondMonitor.retrying(name, outcome, attempts, backoff, silent)
+        catch { case _: Throwable => }
         throw thrown
     }
     secondMonitor.retrying(name, outcome, attempts, backoff, silent)
@@ -46,7 +47,8 @@ case class ChainedEvents(firstMonitor: EventMonitor, secondMonitor: EventMonitor
       firstMonitor.interrupted(name, outcome, attempts)
     } catch {
       case thrown: Throwable =>
-        try secondMonitor.interrupted(name, outcome, attempts) catch {case _: Throwable =>}
+        try secondMonitor.interrupted(name, outcome, attempts)
+        catch { case _: Throwable => }
         throw thrown
     }
     secondMonitor.interrupted(name, outcome, attempts)
@@ -58,7 +60,8 @@ case class ChainedEvents(firstMonitor: EventMonitor, secondMonitor: EventMonitor
       firstMonitor.aborted(name, outcome, attempts)
     } catch {
       case thrown: Throwable =>
-        try secondMonitor.aborted(name, outcome, attempts) catch {case _: Throwable =>}
+        try secondMonitor.aborted(name, outcome, attempts)
+        catch { case _: Throwable => }
         throw thrown
     }
     secondMonitor.aborted(name, outcome, attempts)

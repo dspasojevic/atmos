@@ -1,5 +1,5 @@
 /* package.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -25,8 +25,8 @@ import scala.language.implicitConversions
 import scala.util.Try
 
 /**
- * The `atmos.dsl` package defines a domain specific language for constructing and using retry policies.
- */
+  * The `atmos.dsl` package defines a domain specific language for constructing and using retry policies.
+  */
 package object dsl extends Deadlines {
 
   //
@@ -86,17 +86,17 @@ package object dsl extends Deadlines {
   def retryForever: RetryPolicy = RetryPolicy(termination.NeverTerminate)
 
   /**
-   * Creates a new retry policy based on the specified termination policy.
-   *
-   * @param termination The termination policy that will be used by the new retry policy.
-   */
+    * Creates a new retry policy based on the specified termination policy.
+    *
+    * @param termination The termination policy that will be used by the new retry policy.
+    */
   def retryFor(termination: TerminationPolicy): RetryPolicy = RetryPolicy(termination)
 
   /**
-   * Provides an implicit extension of the retry policy interface.
-   *
-   * @param policy The retry policy to extend the interface of.
-   */
+    * Provides an implicit extension of the retry policy interface.
+    *
+    * @param policy The retry policy to extend the interface of.
+    */
   implicit def retryPolicyToRetryPolicyExtensions(policy: RetryPolicy): RetryPolicyExtensions =
     RetryPolicyExtensions(policy)
 
@@ -105,35 +105,35 @@ package object dsl extends Deadlines {
   //
 
   /**
-   * Creates a termination policy that limits a retry operation to the specified time frame for use in expressions like
-   * `retryFor { 5.minutes }`.
-   *
-   * @param duration The maximum duration that the resulting termination policy will specify.
-   */
+    * Creates a termination policy that limits a retry operation to the specified time frame for use in expressions like
+    * `retryFor { 5.minutes }`.
+    *
+    * @param duration The maximum duration that the resulting termination policy will specify.
+    */
   implicit def finiteDurationToTerminationPolicy(duration: FiniteDuration): TerminationPolicy =
     termination.LimitDuration(duration)
 
   /**
-   * Adds logical and and or operators to durations for use in expressions like `retryFor { 5.minutes || 5.attempts }`.
-   *
-   * @param duration The maximum duration that the resulting termination policy will specify.
-   */
+    * Adds logical and and or operators to durations for use in expressions like `retryFor { 5.minutes || 5.attempts }`.
+    *
+    * @param duration The maximum duration that the resulting termination policy will specify.
+    */
   implicit def finiteDurationToTerminationPolicyExtensions(duration: FiniteDuration): TerminationPolicyExtensions =
     TerminationPolicyExtensions(duration)
 
   /**
-   * Provides an implicit factory named `attempts` to `Int` for use in expressions like `retryFor { 5.attempts }`.
-   *
-   * @param attempts The maximum number of attempts that resulting termination policies will specify.
-   */
+    * Provides an implicit factory named `attempts` to `Int` for use in expressions like `retryFor { 5.attempts }`.
+    *
+    * @param attempts The maximum number of attempts that resulting termination policies will specify.
+    */
   implicit def intToLimitAttemptsTerminationPolicyFactory(attempts: Int): LimitAttemptsTerminationFactory =
     LimitAttemptsTerminationFactory(attempts)
 
   /**
-   * Provides an implicit extension of the termination policy interface.
-   *
-   * @param policy The termination policy to extend the interface of.
-   */
+    * Provides an implicit extension of the termination policy interface.
+    *
+    * @param policy The termination policy to extend the interface of.
+    */
   implicit def terminationPolicyToTerminationPolicyExtensions(policy: TerminationPolicy): TerminationPolicyExtensions =
     TerminationPolicyExtensions(policy)
 
@@ -142,38 +142,38 @@ package object dsl extends Deadlines {
   //
 
   /**
-   * Creates a backoff policy that uses the same backoff after every attempt.
-   */
+    * Creates a backoff policy that uses the same backoff after every attempt.
+    */
   def constantBackoff: BackoffPolicyFactory = BackoffPolicyFactory(backoff.ConstantBackoff)
 
   /**
-   * Creates a backoff policy that increases the backoff duration linearly after every attempt.
-   */
+    * Creates a backoff policy that increases the backoff duration linearly after every attempt.
+    */
   def linearBackoff: BackoffPolicyFactory = BackoffPolicyFactory(backoff.LinearBackoff)
 
   /**
-   * Creates a backoff policy that increases the backoff duration exponentially after every attempt.
-   */
+    * Creates a backoff policy that increases the backoff duration exponentially after every attempt.
+    */
   def exponentialBackoff: BackoffPolicyFactory = BackoffPolicyFactory(backoff.ExponentialBackoff)
 
   /**
-   * Creates a backoff policy that increases the backoff duration by repeatedly multiplying by the an approximation of
-   * the golden ratio (8 / 5, the sixth and fifth fibonacci numbers).
-   */
+    * Creates a backoff policy that increases the backoff duration by repeatedly multiplying by the an approximation of
+    * the golden ratio (8 / 5, the sixth and fifth fibonacci numbers).
+    */
   def fibonacciBackoff: BackoffPolicyFactory = BackoffPolicyFactory(backoff.FibonacciBackoff)
 
   /**
-   * Creates a backoff policy selects another policy based on the most recently evaluated outcome.
-   *
-   * @param f The function that maps from outcomes to backoff policies.
-   */
+    * Creates a backoff policy selects another policy based on the most recently evaluated outcome.
+    *
+    * @param f The function that maps from outcomes to backoff policies.
+    */
   def selectedBackoff(f: Try[Any] => BackoffPolicy): BackoffPolicy = backoff.SelectedBackoff(f)
 
   /**
-   * Provides an implicit extension of the backoff policy interface.
-   *
-   * @param policy The backoff policy to extend the interface of.
-   */
+    * Provides an implicit extension of the backoff policy interface.
+    *
+    * @param policy The backoff policy to extend the interface of.
+    */
   implicit def backoffPolicyToBackoffPolicyExtensions(policy: BackoffPolicy): BackoffPolicyExtensions =
     BackoffPolicyExtensions(policy)
 
@@ -191,51 +191,51 @@ package object dsl extends Deadlines {
   def printMessageAndStackTrace: monitor.PrintAction = monitor.PrintAction.PrintMessageAndStackTrace
 
   /**
-   * Creates a new event monitor that prints messages to a stream.
-   *
-   * @param stream The stream to print events to.
-   */
+    * Creates a new event monitor that prints messages to a stream.
+    *
+    * @param stream The stream to print events to.
+    */
   implicit def printStreamToPrintEventsWithStream(stream: PrintStream): monitor.PrintEventsWithStream =
     monitor.PrintEventsWithStream(stream)
 
   /**
-   * Creates a new event monitor extension interface for a print stream.
-   *
-   * @param stream The print stream to create a new event monitor extension interface for.
-   */
+    * Creates a new event monitor extension interface for a print stream.
+    *
+    * @param stream The print stream to create a new event monitor extension interface for.
+    */
   implicit def printStreamToPrintEventsWithStreamExtensions(stream: PrintStream): PrintEventsWithStreamExtensions =
     PrintEventsWithStreamExtensions(stream)
 
   /**
-   * Provides an implicit extension of the [[atmos.monitor.PrintEventsWithStream]] interface.
-   *
-   * @param policy The print stream event monitor to extend the interface of.
-   */
+    * Provides an implicit extension of the [[atmos.monitor.PrintEventsWithStream]] interface.
+    *
+    * @param policy The print stream event monitor to extend the interface of.
+    */
   implicit def printEventsWithStreamToPrintEventsWithStreamExtensions //
   (policy: monitor.PrintEventsWithStream): PrintEventsWithStreamExtensions =
     PrintEventsWithStreamExtensions(policy)
 
   /**
-   * Creates a new event monitor that prints messages to a writer.
-   *
-   * @param writer The writer to print events to.
-   */
+    * Creates a new event monitor that prints messages to a writer.
+    *
+    * @param writer The writer to print events to.
+    */
   implicit def printWriterToPrintEventsWithWriter(writer: PrintWriter): monitor.PrintEventsWithWriter =
     monitor.PrintEventsWithWriter(writer)
 
   /**
-   * Creates a new event monitor extension interface for a print writer.
-   *
-   * @param writer The print writer to create a new event monitor extension interface for.
-   */
+    * Creates a new event monitor extension interface for a print writer.
+    *
+    * @param writer The print writer to create a new event monitor extension interface for.
+    */
   implicit def printWriterToPrintEventsWithWriterExtensions(writer: PrintWriter): PrintEventsWithWriterExtensions =
     PrintEventsWithWriterExtensions(writer)
 
   /**
-   * Provides an implicit extension of the [[atmos.monitor.PrintEventsWithWriter]] interface.
-   *
-   * @param policy The print writer event monitor to extend the interface of.
-   */
+    * Provides an implicit extension of the [[atmos.monitor.PrintEventsWithWriter]] interface.
+    *
+    * @param policy The print writer event monitor to extend the interface of.
+    */
   implicit def printEventsWithWriterToPrintEventsWithWriterExtensions //
   (policy: monitor.PrintEventsWithWriter): PrintEventsWithWriterExtensions =
     PrintEventsWithWriterExtensions(policy)
@@ -260,26 +260,26 @@ package object dsl extends Deadlines {
   def logDebug[T: EventLogLevels] = implicitly[EventLogLevels[T]].debugAction
 
   /**
-   * Creates a new event monitor that submits events to a logger.
-   *
-   * @param logger The logger to supply with event messages.
-   */
+    * Creates a new event monitor that submits events to a logger.
+    *
+    * @param logger The logger to supply with event messages.
+    */
   implicit def loggerToLogEventsWithJava(logger: java.util.logging.Logger): monitor.LogEventsWithJava =
     monitor.LogEventsWithJava(logger)
 
   /**
-   * Creates a new event monitor extension interface for a logger.
-   *
-   * @param logger The logger to create a new event monitor extension interface for.
-   */
+    * Creates a new event monitor extension interface for a logger.
+    *
+    * @param logger The logger to create a new event monitor extension interface for.
+    */
   implicit def loggerToLogEventsWithJavaExtensions(logger: java.util.logging.Logger): LogEventsWithJavaExtensions =
     LogEventsWithJavaExtensions(logger)
 
   /**
-   * Provides an implicit extension of the [[atmos.monitor.LogEventsWithJava]] interface.
-   *
-   * @param policy The java logging event monitor to extend the interface of.
-   */
+    * Provides an implicit extension of the [[atmos.monitor.LogEventsWithJava]] interface.
+    *
+    * @param policy The java logging event monitor to extend the interface of.
+    */
   implicit def logEventsWithJavaToLogEventsWithJavaExtensions //
   (policy: monitor.LogEventsWithJava): LogEventsWithJavaExtensions =
     LogEventsWithJavaExtensions(policy)
@@ -312,73 +312,73 @@ package object dsl extends Deadlines {
   //
 
   /**
-   * Performs the specified operation synchronously, retrying according to the implicit retry policy.
-   *
-   * @param operation The operation to repeatedly perform.
-   * @param policy    The retry policy to execute with.
-   * @param clock     The clock used to track time and wait out backoff delays.
-   */
+    * Performs the specified operation synchronously, retrying according to the implicit retry policy.
+    *
+    * @param operation The operation to repeatedly perform.
+    * @param policy    The retry policy to execute with.
+    * @param clock     The clock used to track time and wait out backoff delays.
+    */
   def retry[T]()(operation: => T)(implicit policy: RetryPolicy, clock: Clock): T =
     policy.retry()(operation)
 
   /**
-   * Performs the specified named operation synchronously, retrying according to the implicit retry policy.
-   *
-   * @param name      The name of the operation.
-   * @param operation The operation to repeatedly perform.
-   * @param policy    The retry policy to execute with.
-   * @param clock     The clock used to track time and wait out backoff delays.
-   */
+    * Performs the specified named operation synchronously, retrying according to the implicit retry policy.
+    *
+    * @param name      The name of the operation.
+    * @param operation The operation to repeatedly perform.
+    * @param policy    The retry policy to execute with.
+    * @param clock     The clock used to track time and wait out backoff delays.
+    */
   def retry[T](name: String)(operation: => T)(implicit policy: RetryPolicy, clock: Clock): T =
     policy.retry(name)(operation)
 
   /**
-   * Performs the specified optionally named operation synchronously, retrying according to the implicit retry policy.
-   *
-   * @param name      The optional name of the operation.
-   * @param operation The operation to repeatedly perform.
-   * @param policy    The retry policy to execute with.
-   * @param clock     The clock used to track time and wait out backoff delays.
-   */
+    * Performs the specified optionally named operation synchronously, retrying according to the implicit retry policy.
+    *
+    * @param name      The optional name of the operation.
+    * @param operation The operation to repeatedly perform.
+    * @param policy    The retry policy to execute with.
+    * @param clock     The clock used to track time and wait out backoff delays.
+    */
   def retry[T](name: Option[String])(operation: => T)(implicit policy: RetryPolicy, clock: Clock): T =
     policy.retry(name)(operation)
 
   /**
-   * Performs the specified operation asynchronously, retrying according to the implicit retry policy.
-   *
-   * @param operation The operation to repeatedly perform.
-   * @param policy    The retry policy to execute with.
-   * @param context   The execution context to retry on.
-   * @param clock     The clock used to track time and schedule backoff notifications.
-   */
+    * Performs the specified operation asynchronously, retrying according to the implicit retry policy.
+    *
+    * @param operation The operation to repeatedly perform.
+    * @param policy    The retry policy to execute with.
+    * @param context   The execution context to retry on.
+    * @param clock     The clock used to track time and schedule backoff notifications.
+    */
   def retryAsync[T]()(operation: => Future[T]) //
-    (implicit policy: RetryPolicy, context: ExecutionContext, clock: Clock): Future[T] =
+  (implicit policy: RetryPolicy, context: ExecutionContext, clock: Clock): Future[T] =
     policy.retryAsync()(operation)
 
   /**
-   * Performs the specified optionally named operation asynchronously, retrying according to the implicit retry policy.
-   *
-   * @param name      The name of the operation.
-   * @param operation The operation to repeatedly perform.
-   * @param policy    The retry policy to execute with.
-   * @param context   The execution context to retry on.
-   * @param clock     The clock used to track time and schedule backoff notifications.
-   */
+    * Performs the specified optionally named operation asynchronously, retrying according to the implicit retry policy.
+    *
+    * @param name      The name of the operation.
+    * @param operation The operation to repeatedly perform.
+    * @param policy    The retry policy to execute with.
+    * @param context   The execution context to retry on.
+    * @param clock     The clock used to track time and schedule backoff notifications.
+    */
   def retryAsync[T](name: String)(operation: => Future[T]) //
-    (implicit policy: RetryPolicy, context: ExecutionContext, clock: Clock): Future[T] =
+  (implicit policy: RetryPolicy, context: ExecutionContext, clock: Clock): Future[T] =
     policy.retryAsync(name)(operation)
 
   /**
-   * Performs the specified optionally named operation asynchronously, retrying according to the implicit retry policy.
-   *
-   * @param name      The optional name of the operation.
-   * @param operation The operation to repeatedly perform.
-   * @param policy    The retry policy to execute with.
-   * @param context   The execution context to retry on.
-   * @param clock     The clock used to track time and schedule backoff notifications.
-   */
+    * Performs the specified optionally named operation asynchronously, retrying according to the implicit retry policy.
+    *
+    * @param name      The optional name of the operation.
+    * @param operation The operation to repeatedly perform.
+    * @param policy    The retry policy to execute with.
+    * @param context   The execution context to retry on.
+    * @param clock     The clock used to track time and schedule backoff notifications.
+    */
   def retryAsync[T](name: Option[String])(operation: => Future[T]) //
-    (implicit policy: RetryPolicy, context: ExecutionContext, clock: Clock): Future[T] =
+  (implicit policy: RetryPolicy, context: ExecutionContext, clock: Clock): Future[T] =
     policy.retryAsync(name)(operation)
 
 }

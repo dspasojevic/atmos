@@ -1,5 +1,5 @@
 /* SelectedBackoff.scala
- * 
+ *
  * Copyright (c) 2013-2014 linkedin.com
  * Copyright (c) 2013-2015 zman.io
  *
@@ -21,10 +21,10 @@ import atmos.BackoffPolicy
 import scala.util.Try
 
 /**
- * A policy that delegates to another policy that is selected based on the most recently evaluated outcome.
- *
- * @param f The function that maps from outcomes to backoff policies.
- */
+  * A policy that delegates to another policy that is selected based on the most recently evaluated outcome.
+  *
+  * @param f The function that maps from outcomes to backoff policies.
+  */
 case class SelectedBackoff(f: Try[Any] => BackoffPolicy) extends BackoffPolicy {
 
   /* Return the result of the backoff policy specified by the underlying function. */
