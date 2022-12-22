@@ -14,8 +14,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: coursier/cache-action@v3
+    - uses: actions/checkout@v3
+    - uses: coursier/cache-action@v6
     - name: Run tests
       run: sbt coverage +test
     - name: Coverage Report
@@ -27,7 +27,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - uses: coursier/cache-action@v3
+    - uses: actions/checkout@v3
+    - uses: coursier/cache-action@v6
     - name: Formatting
       run: sbt scalafmtSbtCheck scalafmtCheck test:scalafmtCheck
