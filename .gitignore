@@ -1,4 +1,9 @@
 /target
 /project/target
 /project/project
+/project/metals.sbt
+.vscode
+.metals
+.bsp
+.bloop
 .idea
