@@ -4,19 +4,45 @@
 
 name := "atmos"
 
-version := "2.2"
+version := "2.3"
 
-resolvers += Resolver.sonatypeRepo("public")
+resolvers ++= Resolver.sonatypeOssRepos("public")
 
 description := "minimalist retry-on-failure behavior for scala"
 
-homepage := Some(url("http://github.com/paradoxical-io/"))
+homepage := Some(url("http://github.com/dspasojevic/atmost/"))
 
 startYear := Some(2013)
 
-organization := "io.paradoxical"
+organization := "io.github.dspasojevic"
 
-organizationName := "paradoxical.io"
+organizationName := "dspasojevic.github.io"
+
+licenses := List("Apache-2.0" -> url("http://www.apache.org/licenses/LICENSE-2.0"))
+
+developers := List(
+  Developer(
+    "lonnie",
+    "Lonnie Pryor",
+    "",
+    url("http://zman.io")
+  ),
+  Developer(
+    "devshorts",
+    "Anton Kropp",
+    "",
+    url("http://onoffswitch.net")
+  ),
+  Developer(
+    "dspasojevic",
+    "Daniel Spasojevic",
+    "",
+    url("https://github.com/dspasojevic")
+  )
+)
+
+sonatypeCredentialHost := "s01.oss.sonatype.org"
+sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
 
 scalacOptions ++= Seq(
   "-deprecation",
@@ -37,7 +63,7 @@ organizationHomepage := Some(url("http://github.com/paradoxical-io/"))
 
 scalaVersion := "2.12.10"
 
-crossScalaVersions := Seq("2.11.12", "2.12.10", "2.13.4")
+crossScalaVersions := Seq("2.11.12", "2.12.10", "2.13.10")
 
 libraryDependencies ++= Seq(
   "com.typesafe.akka" %% "akka-actor" % "2.5.27" % "provided",
